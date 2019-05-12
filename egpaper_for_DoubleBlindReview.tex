@@ -33,7 +33,7 @@ citecolor=green
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{An Efficient and Effective Violence Detection Method Based on Improved 3D Convolutional Neural Networks}
+\title{An Effective and Efficient Violence Detection Method Based on Improved 3D Convolutional Neural Networks}
 
 \author{First Author\\
 Institution1\\
@@ -63,31 +63,30 @@ Automatically analyzing violent content in surveillance videos is of vital signi
 \section{Introduction} \label{sec:1}
 
 Nowadays, violence and terrorist attack have become primary threats to world security and stability.
-Thanks to the development of digital media technologies, most violent scenes can be captured and recorded by surveillance cameras.
-However, with a large number of video materials produced every moment, it is impracticable to manually guard these videos and determine every violent scene in real time.
-Consequently, it is of profound significance to develop an efficient system which can automatically monitor surveillance videos and detect violence just in time.
-In the current violence detection tasks, violence is considered the aggressive behaviors of human, rather than fire, shots, explosion or blood.
-Based on this conception, there are three standard benchmark datasets constructed for testing performance.
-To be consistent with related researches, we keep the same meaning of violence in this work.
+Thanks to the development of digital media technologies, violent scenes can be recorded by surveillance cameras.
+However, with a large number of video materials produced every moment, it is unrealistic to manually guard these videos and capture every violent scene in real time.
+Consequently, it is of profound significance to develop an efficient system which can automatically monitor and detect violence in surveillance videos.
+In current tasks, violence is considered as aggressive behaviors of human, rather than fire, shots, explosion or blood.
+Based on the above conception, there are three standard benchmark datasets constructed for performance evaluation.
+We follow the meaning of violence in this work to keep consistent with related researches.
 
-The field of computer vision has been continuing to evolve as computational power improves over time and large-scale data sets become available.
-Deep learning, a critical technology for solving computer vision problems, has achieved remarkable milestones in recent years.
-Subtasks, such as image classification, object detection and so forth, make rapid progress due to the techniques newly researched and developed in deep learning.
-In recent years, many deep-learning based methods have been introduced and proposed to address the problem of violence detection in video contents.
-Compared to hand-crafted features based methods, deep-learning based methods yield considerable improvements in detection accuracy.
-However, there may be trade-offs and hard choices when computational efficiency and detection accuracy are both concerned.
-Consequently, developing an effective and efficient deep learning model is crucial in practical applications.
+In recent years, computer vision (CV) has been continuing to evolve with the improvement of computing power and the availability of large-scale datasets.
+Deep learning, a critical technology for solving CV problems, has achieved remarkable milestone in many fields.
+Subtasks such as image classification and object detection, have made tremendous progress.
+Deep learning methods have also been introduced to address the problem of violence detection in videos.
+Compared to methods based on hand-crafted features, deep learning methods yield considerable improvements in robustness and recognition accuracy.
+However, there may be trade-offs and hard choices when considering both computational efficiency and recognition accuracy.
+Consequently, developing an effective and efficient deep learning model is very crucial in practical applications.
 
-Given the above consideration, we leverage the latest research results in computer vision and develop a deep neural network for violence detection. Our major contributions are summarized as follows:
-
+Given the above consideration, we leverage the latest research findings in computer vision and develop a deep neural network for violence detection. Our major contributions are summarized as follows:
 \begin{itemize}
-	\item Firstly, we propose an end-to-end model with the state-of-the-art deep network architecture for performing violence detection task.
-	\item Secondly, we explore several good practices for effectively applying knowledge of action recognition to violence detection tasks, which contributes to a potential improvement in the final performance.
-	\item Thirdly, we demonstrate that properly selected 3D ConvNets modules are capable of representing and encoding high order spatiotemporal information.
-	\item Last but not least, we experiment with three standard datasets and achieve a better performance over the state-of-the-arts. Also, we analyse and test the inference speed of our model against other deep learning models to evaluate its computational efficiency.
+	\item Firstly, we propose a deep learning model based on 3D ConvNets with improved internal architecture for violence detection tasks.
+	\item Secondly, we demonstrate that properly selected network architectures can improve the ability of  representing abstract spatiotemporal information while reducing the number of parameters.
+	\item Last but not least, we experimentally validate our model on three standard datasets and conduct supplementary experiments to evaluate the effectiveness and efficiency of classic deep learning models.
+	
 \end{itemize}
 
-The rest of this paper organizes as follows: Section 2 introduces the related technologies and works about violence detection. Section 3 explains the details of our model, followed by experiments and results in Section 4. Finally, Section 5 concludes the work in this paper.
+The rest of the paper is organized as follows: Section 2 introduces the related works and methods for violence detection. Section 3 explains the details of our model, followed by experiments and results in Section 4. Finally, Section 5 concludes the work in this paper.
 
 %------------------------------------------------------------------------
 
