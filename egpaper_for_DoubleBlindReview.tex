@@ -33,7 +33,7 @@ citecolor=green
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{An Effective and Efficient Violence Detection Method Based on Improved 3D Convolutional Neural Networks}
+\title{Efficient 3D Convolutional Neural Networks for Violence Detection}
 
 \author{First Author\\
 Institution1\\
@@ -56,7 +56,7 @@ First line of institution2 address\\
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-Automatically analyzing violent content in surveillance videos is of profound significance on many applications, ranging from filtering Internet content to preserving public security. Recognition accuracy and computational efficiency are two key factors to perform this task. In this paper, we propose a deep learning model based on 3D convolutional neural networks with improved internal architecture, which is more capable of capturing spatiotemporal motion features and requires relatively fewer parameters. The proposed method is validated on three standard datasets in terms of classification accuracy. Meanwhile, supplementary experiment is carried out to evaluate the effectiveness and efficiency of our model. Experiment results demonstrate the advantages of our model over the state-of-the-art methods in both recognition accuracy and computational efficiency.
+Automatically analyzing violent content in surveillance videos is of profound significance on many applications, ranging from video content filtration to public security protection. Recognition accuracy and computational efficiency are two key factors to perform this task. In this paper, we propose a deep learning model based on 3D convolutional neural networks with improved internal architecture, which is more capable of capturing spatiotemporal features and requires relatively fewer parameters. The proposed model is validated on three standard datasets in terms of classification accuracy. Meanwhile, supplementary experiment is carried out to evaluate its effectiveness and efficiency. The final results demonstrate the advantages of our model over the state-of-the-art approaches in both recognition accuracy and computational efficiency.
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
@@ -70,32 +70,28 @@ In current tasks, violence is considered as aggressive behaviors of human, rathe
 Based on the above conception, there are three standard benchmark datasets constructed for performance evaluation.
 We follow the meaning of violence in this work to keep consistent with related researches.
 
-In recent years, computer vision (CV) has been continuing to evolve with the improvement of computing power and the availability of large-scale datasets.
-Deep learning, a critical technology for solving CV problems, has achieved remarkable milestone in many fields.
-Subtasks such as image classification and object detection, have made tremendous progress.
-Deep learning methods have also been introduced to address the problem of violence detection in videos.
-Compared to methods based on hand-crafted features, deep learning methods yield considerable improvements in robustness and recognition accuracy.
+In recent years, computer vision has been continuing to evolve with the improvement of computing power and the availability of large-scale datasets.
+Deep learning, a critical technology in computer vision, has achieved remarkable milestone in many fields, such as image classification and object detection.
+It has also been introduced to address the problem of violence detection in videos.
+Compared to approaches based on hand-crafted features, deep learning methods yield tremendous improvements in robustness and recognition accuracy.
 However, there may be trade-offs and hard choices when considering both computational efficiency and recognition accuracy.
 Consequently, developing an effective and efficient deep learning model is very crucial in practical applications.
 
-Given the above consideration, we leverage the latest research findings in computer vision and develop a deep neural network for violence detection. Our major contributions are summarized as follows:
+Considering this situation, we leverage the latest research findings in computer vision and develop a deep neural networks for violence detection. Our major contributions are summarized as follows:
 \begin{itemize}
-	\item Firstly, we propose a deep learning model based on 3D ConvNets with improved internal architecture for violence detection tasks.
-	\item Secondly, we demonstrate that properly selected network architectures can improve the ability of  representing abstract spatiotemporal information while reducing the number of parameters.
-	\item Last but not least, we experimentally validate our model on three standard datasets and conduct supplementary experiments to evaluate the effectiveness and efficiency of our model.
-	
+	\item We propose a deep learning model based on 3D ConvNets with improved internal architecture for violence detection tasks.
+	\item We demonstrate that properly selected internal architectures can improve the ability of representing abstract spatiotemporal information and reducing the number of parameters.
+	\item We experimentally validate our model on three standard benchmark datasets and conduct supplementary experiment to evaluate the effectiveness and efficiency of our model.
 \end{itemize}
 
-The rest of the paper is organized as follows: Section 2 introduces the related works and methods for violence detection. Section 3 explains the details of our model, followed by experiments and results in Section 4. Finally, Section 5 concludes the work in this paper.
+The rest of the paper is organized as follows: Section 2 introduces the related works and approaches for violence detection. Section 3 explains the details of the proposed method, followed by experiment and analysis in Section 4. Finally, Section 5 concludes the work in this paper.
 
 %------------------------------------------------------------------------
 
 \section{Related Works}
 
-At early stage of violence detection, methods are limited to the detection of specific information or cues. 
-Nam et al. \cite{nam1998audio} propose a method by detecting the presence of flame and blood in violent scenes as well as the characteristic sounds. 
-Cheng et al. \cite{cheng2003semantic} build a  hierarchical approach by recognizing explosion, gunshots and breaking sound in audio using Gaussian Mixture Model (GMM) and Hidden Markov Model (HMM). 
-These methods are highly dependent on audio features and are prone to be interfered by other noises. 
+At early stage of research, violence detection approaches \cite{nam1998audio, cheng2003semantic, zajdel2007cassandra} generally rely on the detection of specific visual cues such as flame, blood and explosion together with audio content like gunshot or breaking sound.
+
 To reduce this impact, Zajdel et al. \cite{zajdel2007cassandra} present a surveillance system, exploiting of the complimentary nature of audio and video.
 Acar et al. \cite{acar2016breaking} use time efficient audio features in coarse-level analysis and use advanced motion features to pursue fine-level analysis when necessary.
 In practical scenarios, however, most of the surveillance cameras do not contain any audio devices, resulting in the fact that  the majority of video contents do not have audio tracks, which brings great difficulties to audio-based methods. 
@@ -187,7 +183,7 @@ As is similar in \cite{densenet}, dense block is comprised of several dense laye
 The $l^{th}$ layer receives the output feature maps of all its preceding layers, $y_0$, $y_1$, $\cdots$, $y_{l-1}$, as inputs:
 \begin{equation}
 \label{eq:densenet}
-y_l = H_l([y_0, y_1, \cdots, y_{l-1}])
+y_l = H_l\left([y_0, y_1, \cdots, y_{l-1}]\right)
 \end{equation}
 where $H_l(*)$ is the state transition function of the $l^{th}$ layer, and $[*]$ denotes concatenating operation.
 Each dense layer produces $k$ new feature maps, where $k$ is a hyper-parameter and is referred as growth rate. For a dense block containing $L$ layers, it produces $k \times L$ new feature maps.
@@ -206,7 +202,7 @@ By taking the advantages of feature reusing, the collective knowledge of the mod
 \begin{center}
 \includegraphics[scale=0.30]{fig/fig2.png}
 \end{center}
-\caption{Block diagram of dense layers and transition layers in our model. The block [$x^3$ Conv, $F$] denotes a convolution layer that have the kernel size of $x \times x \times x$ and produces $F$ feature maps.}
+\caption{Block diagram of bottleneck and transition layer in our model. The block [$x^3$ Conv, $F$] denotes a convolution layer that have the kernel size of $x \times x \times x$ and produces $F$ feature maps.}
 \label{fig:bottleneck}
 \end{figure}
 
@@ -227,7 +223,7 @@ DenseBlock 2 & $(1^3, 3^3) \times 12$ & [512,4,14,14] \\
 TransitionLayer 2 & $1^3$ Conv, $3^3$ Avg & [256,2,7,7] \\
 DenseBlock 3 & $(1^3, 3^3) \times 24$ & [1024,2,7,7]\\
 GlobalAvgPooling & $2 \times 7 \times 7$ Avg & [1024,1,1,1]\\
-Classification & FC Layer & [2] \\
+Classification & FC Layer & [2,-,-,-] \\
 \hline
 \end{tabular}
 \end{center}
@@ -284,7 +280,7 @@ Bi-ConvLSTM \cite{bi_convlstm} & 98.1$\pm$0.58\% & \textbf{100$\pm$0\%} & 93.87$
 
 %------------------------------------------------------------------------ 
 
-\section{Experiments and Results}
+\section{Experiment and Analysis}
 
 Several experiments have been conducted to evaluate the performance of the proposed model in terms of classification accuracy on three standard benchmark datasets. Meanwhile, computational efficiency of deep learning models is also considered and estimated.
 
@@ -395,8 +391,8 @@ This implies that the proposed model achieves better generalization and can effe
 \hline
 \textbf{Model} & \textbf{FLOPS} & \textbf{1} & \textbf{8} & \textbf{16}\\
 \hline\hline
-C3D & 40.04G & \textbf{1.1ms} & 5.1ms & 10.2ms \\
-ConvLSTM & 14.40G & 3.7ms & 4.9ms & 6.3ms \\
+C3D \cite{3dcnn_1} & 40.04G & \textbf{1.1ms} & 5.1ms & 9.9ms \\
+ConvLSTM \cite{convlstm_sudh} & 14.40G & 3.7ms & 4.9ms & 6.3ms \\
 \textbf{Proposed} & \textbf{10.43G} & 1.9ms & \textbf{3.6ms} & \textbf{5.7ms} \\
 \hline
 \end{tabular}
