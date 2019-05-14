@@ -60,7 +60,8 @@ Automatically analyzing violent content in surveillance videos is of profound si
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
-\section{Introduction} \label{sec:1}
+\section{Introduction}
+\label{sec:1}
 
 Nowadays, violence and terrorist attack have become primary threats to world security and stability.
 Thanks to the development of digital media technologies, violent scenes can be recorded by surveillance cameras.
@@ -71,57 +72,66 @@ Based on the above conception, there are three standard benchmark datasets const
 We follow the meaning of violence in this work to keep consistent with related researches.
 
 In recent years, computer vision has been continuing to evolve with the improvement of computing power and the availability of large-scale datasets.
-Deep learning, a critical technology in computer vision, has achieved remarkable milestone in many fields, such as image classification and object detection.
+Deep learning, a critical technology in computer vision, has achieved remarkable milestones in many fields, such as image classification and object detection.
 It has also been introduced to address the problem of violence detection in videos.
 Compared to approaches based on hand-crafted features, deep learning methods yield tremendous improvements in robustness and recognition accuracy.
 However, there may be trade-offs and hard choices when considering both computational efficiency and recognition accuracy.
 Consequently, developing an effective and efficient deep learning model is very crucial in practical applications.
 
-Considering this situation, we leverage the latest research findings in computer vision and develop a deep neural networks for violence detection. Our major contributions are summarized as follows:
+In view of the circumstances above, we leverage the latest research findings in computer vision and develop a deep learning model for violence detection. Our major contributions are summarized as follows:
 \begin{itemize}
-	\item We propose a deep learning model based on 3D ConvNets with improved internal architecture for violence detection tasks.
+	\item We propose a deep learning model based on 3D CNNs with improved internal architecture for violence detection tasks.
 	\item We demonstrate that properly selected internal architectures can improve the ability of representing abstract spatiotemporal information and reducing the number of parameters.
 	\item We experimentally validate our model on three standard benchmark datasets and conduct supplementary experiment to evaluate the effectiveness and efficiency of our model.
 \end{itemize}
 
-The rest of the paper is organized as follows: Section 2 introduces the related works and approaches for violence detection. Section 3 explains the details of the proposed method, followed by experiment and analysis in Section 4. Finally, Section 5 concludes the work in this paper.
+The rest of the paper is organized as follows: Section \ref{sec:2} introduces the related works and approaches for violence detection. Section \ref{sec:3} explains the details of the proposed method, followed by experiment and analysis in Section \ref{sec:4}. Finally, Section \ref{sec:5} concludes the work in this paper.
 
 %------------------------------------------------------------------------
 
 \section{Related Works}
+\label{sec:2}
 
-At early stage of research, violence detection approaches \cite{nam1998audio, cheng2003semantic, zajdel2007cassandra} generally rely on the detection of specific visual cues such as flame, blood and explosion together with audio content like gunshot or breaking sound.
+In earlier studies, violence detection approaches generally depend on the recognition of specific visual cues like flame and blood together with audio content such as gunshot or breaking sound \cite{nam1998audio, cheng2003semantic, zajdel2007cassandra}.
+However, in most cases, surveillance cameras do not contain audio devices, which brings great difficulties to audio based approaches. 
+Therefore, methods based on videos become the mainstream of this field. 
+Video based approaches, typically can be divided into two categories according to their feature extraction methods: 
+traditional hand-crafted feature based approaches and deep learning approaches.
 
-To reduce this impact, Zajdel et al. \cite{zajdel2007cassandra} present a surveillance system, exploiting of the complimentary nature of audio and video.
-Acar et al. \cite{acar2016breaking} use time efficient audio features in coarse-level analysis and use advanced motion features to pursue fine-level analysis when necessary.
-In practical scenarios, however, most of the surveillance cameras do not contain any audio devices, resulting in the fact that  the majority of video contents do not have audio tracks, which brings great difficulties to audio-based methods. 
-As a result, methods based on video contents become the mainstream. 
+Hand-crafted approaches usually extract frame-level features designed by human, then aggregate them using encoding strategies, and finally apply machine learning classifiers for the final decision.
+Among these approaches, STIP \cite{STIPs}, MoSIFT \cite{MoSIFT} and iDT \cite{iDTs} are widely used features for violence detection such as \cite{vio_sift, hockey, mosift_sc}.
+There are also several descriptors specifically designed for representation of violence information. 
+Hassner et al. \cite{vif} introduced VIolent Flows (ViF) feature by estimating magnitude of optical flow over time.
+Later, Gao et al. \cite{ovif} improved this work and proposed Oriented VIolent Flows (OViF) feature by additionally calculating statistical motion orientations.
+Deniz et al. \cite{fast} applied Radon Transform on the power spectrum of consecutive frames to estimate extreme acceleration patterns in fights.
+Bilinski et al. \cite{bilinski2016human} developed an extension of Improved Fisher Vectors for videos to represent local features and their spatio-temporal positions.
+Zhang et al. \cite{MoIWLD} proposed a modified motion Weber local descriptor (MoIWLD) as the new feature descriptor.
+Deb et al. \cite{vlad} introduced Outlier-Resistant VLAD (OR-VLAD) to improve the performance for feature encoding.
 
-Video-based violence detection can be divided into two categories according to their feature extraction methods:
-traditional hand-crafted feature based methods, and deep learning methods.
+Deep learning approaches, differently from traditional methods, use trainable deep neural networks as feature extractor, and usually build an end-to-end model including feature extraction, encoding and classification. 
+Simonyan et al. \cite{two-stream} firstly proposed two-stream networks for human action recognition by adding extra temporal network to capture motion information in optical flows.
+Dong et al. \cite{dong2016multi} extended this model to multi-stream, adding another acceleration stream for capturing intense motion in violence. Also, they employed LSTM \cite{lstm} network to model long-term information.  
+Zhou et al. \cite{zhou2017violent} applied temporal segment networks (TSN) \cite{tsn} and proposed FightNet model. This model takes raw frames, optical flow and acceleration field as input and SoftMax is used for final fusion.
+Serrano et al. \cite{serrano2018fight} employed Hough Forests to build representative image for each video sequence, followed by a 2D ConvNets for the final decision.
 
-Hand-crafted feature based approaches, generally, extract relatively robust features designed by human, then aggregate these features with encoding strategies, and apply machine learning classifiers for the final decision.
-Among these methods, STIP \cite{STIPs}, MoSIFT \cite{MoSIFT} and iDT \cite{iDTs} descriptors are widely used features in violence detection tasks such as \cite{vio_sift, hockey, mosift_sc}.
-Hassner et al. \cite{vif} propose a novel feature descriptor, namely VIolent Flows (ViF), by considering the statistics of optical flow vector magnitude changes over time. They also introduce VIolent Flows benchmark dataset in their work.
-Later, Gao et al. \cite{ovif} improve this method and take full advantage of the motion magnitude change information by calculating the histograms of oriented optical flow, resulting in Oriented VIolent Flows (OViF) feature.
-A fast detection method is proposed by Deniz et al. in \cite{fast}, with extreme accelerations efficiently estimated by applying the Radon transform to the power spectrum of consecutive frames.
-Mohammadi et al. \cite{moha_avss} exploit the spatiotemporal characteristic of substantial derivative, an important concept in fluid mechanics, as feature extraction for violence detection.
-Gracia et al. \cite{blob} use features extracted from motion blobs to discriminate fight and non-fight sequences. 
-Zhang et al. \cite{MoIWLD} propose a modified motion Weber local descriptor (MoIWLD), integrated with the sparse representation, as the new feature descriptor.
-Senst et al. \cite{lagrangian} present a new feature using Lagrangian direction fields, where appearance, background motion compensation, and long-term motion information are used.
-Deb et al. \cite{vlad} introduce a higher order statistics-based feature encoding method, called Outlier-Resistant VLAD (OR-VLAD), to improve the original VLAD performance.
+These approaches leverage the hand-crafted features by combining them with deep learning technologies.
+However, drawbacks are that they are not end-to-end trainable and are more dependent on the effectiveness of hand-crafted features.
+Besides, it may be inefficient to add additional computation steps. 
 
-Deep learning approaches aim to develop end-to-end trainable models including feature extraction, encoding, and classification. 
-Simonyan et al. \cite{two-stream} first propose two-stream architecture for human action recognition, with spatial and temporal networks fusion by SVM, trying to capture motion information between frames using optical flow as input.
-Dong et al. \cite{dong2016multi} extend this method to multi-stream, adding another acceleration stream for capturing the important intense information in violence. Also, they add LSTM \cite{lstm} before the final fusion to model long-term information.  
-Zhou et al. \cite{zhou2017violent} borrow the idea from temporal segment networks (TSN) \cite{tsn} and propose a model named FightNet. They use RGB images, optical flow and acceleration field as input, and then fusion them with SoftMax.
-Meng et al. \cite{meng2017trajectory} take the advantage of hand-crafted features, using improved trajectories and trajectory pooling in model for encoding long-term informations.
-Serrano et al. \cite{serrano2018fight} use Hough Forests as feature extractor to build a representative image for each sequence, followed by 2DCNN for the final decision.
-These methods leverage the hand-crafted features by combining them with deep learning models. However, there are some drawbacks. They are not actually end-to-end trainable as they take hand-crafted features as inputs. As a result, it may be inefficient to add additional computation.
+Several end-to-end trainable models have been proposed to solve these problems.
+Ding et al. \cite{3dcnn_ding} proposed a 3D ConvNets for violence detection without using any hand-crafted feature or prior knowledge. 
+Sudhakaran et al. \cite{convlstm_sudh} applied 2D ConvNets to extract spatial feature maps, then followed by ConvLSTM \cite{convlstm} to encode spatiotemporal information.
+This work was subsequently improved by Hanson et al. \cite{bi_convlstm} by building Bidirectional ConvLSTM (Bi-ConvLSTM) architecture as spatiotemporal encoder.
 
-Some other methods have been proposed to solve these problems.
-Ding et al. \cite{3dcnn_ding} propose a 3D ConvNets model for violence detection without using any hand-crafted feature or prior knowledge. 
-Sudhakaran et al. \cite{convlstm_sudh} use 2DCNN to extract spatial feature maps, followed by ConvLSTM \cite{convlstm} to encode spatiotemporal information, which is also end-to-end trainable.
+Recently, deep learning methods based on 3D CNNs have achieved tremendous success in the field of action recognition, owing to the availability of large scale datasets and the improvements of technologies. 
+Tran et al. \cite{3dcnn_1} proposed C3D discriptor and raised four properties for effective video descriptors: generic, compact, efficient and simple. 
+Carreira et al. \cite{kinetics} built a large scale dataset called Kinetics for human action recognition, which plays a significant role similar to that ImageNet \cite{imagenet} plays in image recognition. 
+Soon after, Hara et al. \cite{3dcnn_2} conducted a series of experiments and demonstrated that 3D CNNs pre-trained on Kinetics dataset could retrace the triumph of 2D CNNs and ImageNet.
+Tran et al. \cite{r2+1d} explored several varieties of 3D CNN architectures and designed a new spatiotemporal convolutional block called R(2+1)D for action recognition.
+Also, they comprehensively studied several good practices for applying 3D CNNs to specific tasks.
+
+By taking full advantage of recent research findings, we develop an efficient and effective 3D CNN model with specifically designed architecture for violence detection tasks.
+
 
 %------------------------------------------------------------------------- 
 
@@ -134,23 +144,14 @@ Sudhakaran et al. \cite{convlstm_sudh} use 2DCNN to extract spatial feature maps
 \caption{Network architecture of proposed method. The model is composed of three dense blocks, two transition layers, one initial convolution layer and one fully connected layer (Dense Block 2 and Transition Layer 2 are omitted). Each dense block contains densely connected dense layers. The fully-connected layer are joined with output feature maps using global averaging pooling strategy. Diagram in the left dashed box illustrates the simplified details in dense block, where the number of dense layers is 2 and the growth rate $k$ is 4.}
 \label{fig:model}
 \end{figure*}
-
-
-%------------------------------------------------------------------------- 
-
-
-Recently, deep learning approaches have achieved great successes in the field of action recognition, due to the development of deep learning technologies and the availability of large scale datasets. 
-Tran et al. \cite{3dcnn_1} research the features learned by 3D ConvNets and propose four properties for an effective video descriptor: generic, compact, efficient and simple. 
-Carreira et al. \cite{kinetics} build a large-scale dataset called Kinetics, for human action recognition, which is similar to the role that ImageNet \cite{imagenet} dataset plays in image classification. 
-Following this, Hara et al. \cite{3dcnn_2} perform a series of experiments and prove that 3D CNN and Kinetics dataset can have the potential contribution to the field of action recognition.
-Tran et al. \cite{r2+1d} explore different kinds of 3D CNN architecture and design a new spatiotemporal convolutional block "R(2+1)D" for action recognition, achieving comparable or superior results.
-
-By taking the advanced theory and practical experience above, we have developed an efficient and effective model based on 3D CNN with special designed architecture for violence detection tasks.
-
+	
+	
 %------------------------------------------------------------------------- 
 
 \section{Proposed Method}
-Our aim is to design a deep neural network model for classifying fight and non-fight clips from RGB videos. 
+\label{sec:3}
+
+Our aim is to design an end-to-end deep learning model for classifying fight and non-fight clips from RGB videos. 
 For a system able to identify violent scenes, it should be capable of capturing the motion of human body over time. 
 Recognition accuracy and computational efficiency are two important indicators of this task.
 Consequently, it is of great importance to developing an effective and efficient spatiotemporal feature extractor module.
@@ -252,6 +253,7 @@ The internal details of the proposed model are listed in Table \ref{table:arch}.
 In Output Shape column, $[F, T, H, W]$ denotes the shape of output tensors (feature maps) produced by former module.
 Note that dense blocks are slightly different from the simplified illustraion in Figure \ref{fig:model}. 
 
+%------------------------------------------------------------------------ 
 
 \begin{table*}
 \begin{center}
@@ -261,11 +263,11 @@ Note that dense blocks are slightly different from the simplified illustraion in
 \hline
 \textbf{Method} & \textbf{Hockey Fights Dataset} & \textbf{Movies Dataset} & \textbf{VIolent Flows Dataset} \\
 \hline\hline
-Deniz et al. \cite{fast} & 90.1$\pm$0\% & 98.0$\pm$0.22\% & - \\
-Bilinski et al. \cite{bilinski2016human} & 93.4\% & 99\% & 96.4\% \\
 ViF + OViF \cite{ovif} & 87.5$\pm$1.7\% & - & 88$\pm$2.45\% \\
-Substantial Derivative \cite{moha_avss} & - & 96.89$\pm$0.21\% & 85.43$\pm$0.21\% \\
+Radon Transform \cite{fast} & 90.1$\pm$0\% & 98.9$\pm$0.22\% & - \\
+STIFV \cite{bilinski2016human} & 93.4\% & 99\% & 96.4\% \\
 MoIWLD \cite{MoIWLD} & 96.8$\pm$1.04\% & - & 93.19$\pm$0.12\% \\
+OR-VLAD \cite{vlad} & 98.2$\pm$0.76\% & \textbf{100$\pm$0\%} & 93.09$\pm$1.14\% \\
 \hline
 Three streams + LSTM \cite{dong2016multi} & 93.9\% & - & - \\
 FightNet \cite{zhou2017violent} & 97.0\% & 100\% & - \\
@@ -280,19 +282,17 @@ Bi-ConvLSTM \cite{bi_convlstm} & 98.1$\pm$0.58\% & \textbf{100$\pm$0\%} & 93.87$
 
 %------------------------------------------------------------------------ 
 
-\section{Experiment and Analysis}
+\section{Experiments and Analysis}
+\label{sec:4}
 
 Several experiments have been conducted to evaluate the performance of the proposed model in terms of classification accuracy on three standard benchmark datasets. Meanwhile, computational efficiency of deep learning models is also considered and estimated.
 
 \subsection{Dataset}
 
-In violence detection tasks, there are three public standard benchmark datasets:
-
+In violence detection tasks, there are three public standard benchmark datasets: \\
 \textbf{Hockey Fights Dataset} \cite{hockey} contains 1000 videos collected from hockey games.
-Each video consists of 50 frames with 720$\times$576 pixels. Nearlly all of the videos have the same background and human activities including fights and normal gamings.
-
-\textbf{Movies Dataset} \cite{hockey} has 200 untrimmed video clips obtained from action movies with different resolutions. Different from Hockey, videos in Movies dataset vary in contents.
-
+Each video consists of 50 frames with 720$\times$576 pixels. Nearlly all of the videos have the same background and human activities including fights and normal gamings. \\
+\textbf{Movies Dataset} \cite{hockey} has 200 untrimmed video clips obtained from action movies with different resolutions. Different from Hockey, videos in Movies dataset vary in contents.\\
 \textbf{VIolent-Flows Dataset} \cite{vif} consists of 246 videos of crowd behavior with frames resized to 320$\times$240 pixels.
 Different perspectives, noisy background and dense crowd make this dataset relatively challenging for feature learning.
 
@@ -306,7 +306,7 @@ The three datasets are also mixed up as Mix dataset.
 In Mix dataset, positive and negative samples are randomly drawn from original datasets separately in the same proportion.
 Mix dataset can be used to evaluate overall performance for deep learning models of their modeling capability and generalization ability in violence detection task.
 
-\subsection{Experiment Settings}
+\subsection{Experiment Setup}
 
 The proposed model is implemented using PyTorch \cite{pytorch} platform. 
 When comparing inference speed, other deep models for comparision are also implemented with PyTorch to guarantee comparability and consistency.
@@ -385,7 +385,7 @@ This implies that the proposed model achieves better generalization and can effe
 
 \begin{table}
 \begin{center}
-\caption{Efficiency of deep learning models. The last three columns list the $n$-channel inference time per frame.}
+\caption{Comparision of efficiency. The last three columns list the $n$-channel inference time per frame on single GTX 1080Ti.}
 \label{table:efficiency}
 \begin{tabular}{lcccc}
 \hline
@@ -406,10 +406,11 @@ Table \ref{table:efficiency} shows that the proposed model requires lower floati
 Meanwhile, it has a faster inference speed and can process about 175 16-channel frames (i.e. 10$\times$16 video clips) per second.
 However, as the architecture of our model require frequent memory I/O, it waste more time on small batch inputs. 
 We will try to optimize its implementation and fix this problem in the future.
- 
-%------------------------------------------------------------------------
+
 
 \section{Conclusions}
+\label{sec:5}
+
 In this paper, we propose a deep learning model based on 3D convolutional neural networks with improved internal architecture. 
 The proposed model has relatively fewer parameters and is more capable of learning spatiotemporal features in violent videos. 
 Experiment results on three standard benchmark datasets demonstrate the improvement of our model compared to state-of-the-art methods. 
