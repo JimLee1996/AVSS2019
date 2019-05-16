@@ -89,7 +89,7 @@ The rest of the paper is organized as follows: Section \ref{sec:2} introduces th
 
 %------------------------------------------------------------------------
 
-\section{Related Works}
+\section{Related Work}
 \label{sec:2}
 
 In earlier studies, violence detection approaches generally depend on the recognition of specific visual cues like flame and blood together with audio content such as gunshot or breaking sound \cite{nam1998audio, cheng2003semantic, zajdel2007cassandra}.
@@ -108,10 +108,10 @@ Bilinski et al. \cite{bilinski2016human} developed an extension of Improved Fish
 Zhang et al. \cite{MoIWLD} proposed a modified motion Weber local descriptor (MoIWLD) as the new feature descriptor.
 Deb et al. \cite{vlad} introduced Outlier-Resistant VLAD (OR-VLAD) to improve the performance for feature encoding.
 
-Deep learning approaches, differently from traditional methods, use trainable deep neural networks as feature extractor, and usually build an end-to-end model including feature extraction, encoding and classification. 
+Deep learning approaches, differently from traditional methods, use trainable deep neural networks as feature extractor, and usually build an end-to-end model including feature extraction, encoding, and classification. 
 Simonyan et al. \cite{two-stream} firstly proposed two-stream networks for human action recognition by adding extra temporal network to capture motion information in optical flows.
 Dong et al. \cite{dong2016multi} extended this model to multi-stream, adding another acceleration stream for capturing intense motion in violence. Also, they employed LSTM \cite{lstm} network to model long-term information.  
-Zhou et al. \cite{zhou2017violent} applied temporal segment networks (TSN) \cite{tsn} and proposed FightNet model. This model takes raw frames, optical flow and acceleration field as input and SoftMax is used for final fusion.
+Zhou et al. \cite{zhou2017violent} applied temporal segment networks (TSN) \cite{tsn} and proposed FightNet model. This model takes raw frames, optical flow, and acceleration field as input and SoftMax is used for final fusion.
 Serrano et al. \cite{serrano2018fight} employed Hough Forests to build representative image for each video sequence, followed by a 2D ConvNets for the final decision.
 
 These approaches leverage the hand-crafted features by combining them with deep learning technologies.
@@ -139,9 +139,9 @@ By taking full advantage of recent research findings, we develop an efficient an
 
 \begin{figure*}
 \begin{center}
-\includegraphics[scale=0.55]{fig/fig1.png}
+\includegraphics[scale=0.52]{fig/fig1.png}
 \end{center}
-\caption{Network architecture of proposed method. The model is composed of three dense blocks, two transition layers, one initial convolution layer and one fully connected layer (Dense Block 2 and Transition Layer 2 are omitted). Each dense block contains densely connected dense layers. The fully-connected layer are joined with output feature maps using global averaging pooling strategy. Diagram in the left dashed box illustrates the simplified details in dense block, where the number of dense layers is 2 and the growth rate $k$ is 4.}
+\caption{Block diagram of the proposed model. The model is composed of one initial convolution layer, three dense blocks, two transition layers, and one fully connected layer (Dense Block 2 and Transition Layer 2 are omitted due to limitation of space). Each dense block contains several dense layers. The fully-connected layer are joined with output feature maps using global averaging pooling strategy.}
 \label{fig:model}
 \end{figure*}
 	
@@ -151,51 +151,57 @@ By taking full advantage of recent research findings, we develop an efficient an
 \section{Proposed Method}
 \label{sec:3}
 
-Our aim is to design an end-to-end deep learning model for classifying fight and non-fight clips from RGB videos. 
-For a system able to identify violent scenes, it should be capable of capturing the motion of human body over time. 
-Recognition accuracy and computational efficiency are two important indicators of this task.
-Consequently, it is of great importance to developing an effective and efficient spatiotemporal feature extractor module.
-In view of these facts, we follow the conclusion and advice in \cite{3dcnn_1, r2+1d} and refer to the success of DenseNet \cite{densenet} architecture, and finally develop an efficient and effective model based on 3D convolutional networks.
-
+The purpose of the proposed method is to design an end-to-end trainable deep learning model for detecting and recognizing fight clips in videos. 
+For a model able to identify violent scenes, it should be capable of capturing anomaly or intense motions pattern of human bodies. 
+Recognition accuracy and computational efficiency are two important indicators.
+Consequently, developing effective and efficient spatiotemporal modules is of great importance in this task.
+In view of the facts above, we leverage the findings in \cite{3dcnn_1, 3dcnn_2, r2+1d} and refer to the successful architecture of DenseNet \cite{densenet}, then finally develop a deep learning model based on 3D convolutional networks.
 
 \subsection{Rethinking 3D Convolutional Networks}
 
-For a video classification task, the most critical issue is to extract appropriate features which are representative for the video content.
-Compared to other architectures, 3D ConvNets can effectively capture spatiotemporal features  with convolution kernel extended to three dimensions. 
-It implies that there is no need to apply LSTM or other RNN architecture for temporal information encoding. 
-Also raw pixels are taken as input without complex preprocessing or extra calculation, as is much more computational efficient than other deep learning model using optical flow, trajectories etc.
+For video understanding tasks, the most critical issue is how to extract appropriate features that are representative of the spatiotemporal information.
+Compared to those architectures that separately encode spatial and temporal information, 3D CNNs can simultaneously capture spatiotemporal features as its convolution kernel extended to three dimensions. 
+It implies that there is no need to apply extra LSTM or other RNN architectures exclusively designed for encoding temporal information. 
+Also, raw pixels can be input directly without complex preprocessing or extra calculation, which is much more computationally efficient than other deep learning model using optical flow, trajectories, and so forth.
 
-However, the number of parameters may be exponentially increased due to the characteristics of 3D convolution itself, which may bring two main problems: 
+However, the number of parameters may  exponentially increase as 3D convolution filters cube the kernel size, which may bring two main problems: 
 Firstly, more parameters require higher FLOPs, which is computational inefficient; 
-Secondly, redundant parameters may cause model overfitting and decreasing in generalization, especially in small dataset. 
-To solve these problems and promote 3D ConvNets to give scope to feature representation, we take advantages of latest research findings.
+Secondly, redundant parameters may result in model overfitting and decreased generalization ability, especially in small scale datasets. 
+To address these problems and promote 3D CNNs to give scope to its representation potentials, we have adopted several strategies.
 
-The most direct approach is trying to reduce the size of convolution kernel. For example, two serialized 3$\times$3$\times$3 kernels nearly have the same representational ability of one 5$\times$5$\times$5 kernel, while the number of parameters is only the half. And it has been found and suggested in \cite{3dcnn_1} that 3$\times$3$\times$3 is the best kernel choice for 3D ConvNets.
+The most direct way is to reduce the kernel size of convolution filters. 
+For instance, two serialized 3$\times$3$\times$3 kernels have nearly the same representation ability of one 5$\times$5$\times$5 kernel, while the number of parameters is only half. 
+Also, findings in \cite{3dcnn_1, 3dcnn_2, r2+1d} suggest that 3$\times$3$\times$3 kernel size is the best option for 3D CNNs.
 
-Encouraging feature reusing is also a good practice in designing networks. In model training phase, it helps to facilitate the back propagation of information flow, which conduces to avoid overfitting and improve generalization. DenseNet \cite{densenet} gives a serials of inspirations on developing a compact but effective architecture.
+Encouraging feature reusing is also a good practice in designing networks. 
+In the model training phase, it helps to facilitate the backpropagation of information flow, which conduces to avoid overfitting and improve generalization. 
+DenseNet \cite{densenet} gives serials of inspirations on developing compact but effective network architectures.
 
 \subsection{Network Architecture}
 
-An overview of our model is illustrated in Figure \ref{fig:model}, including three dense blocks and two transition layers. 
-All kernel sizes of convolutional layers and pooling layers are three-dimensional. 
-The initial convolutional layer is a traditional convolutional layer with kernel size 7$\times$7$\times$7. 
-Then these feature maps are used in the following first dense block. 
-As is similar in \cite{densenet}, dense block is comprised of several dense layers, and these layers are directly connected with each other. 
-The $l^{th}$ layer receives the output feature maps of all its preceding layers, $y_0$, $y_1$, $\cdots$, $y_{l-1}$, as inputs:
+An overview of the proposed model is illustrated in Figure \ref{fig:model}, including three dense blocks and two transition layers. 
+All the kernel sizes of convolution filters and pooling layers are three-dimensional. 
+The network takes video clips as inputs, from which the initial convolution layer produces primary 64 feature maps. 
+Then these feature maps are handled in the following first dense block. 
+Dense block composes of several densely connected layers, namely dense layers.
+The $l^{th}$ dense layer receives all the feature maps produced by its preceding layers, $y_0$, $y_1$, $\cdots$, $y_{l-1}$, as inputs:
 \begin{equation}
 \label{eq:densenet}
 y_l = H_l\left([y_0, y_1, \cdots, y_{l-1}]\right)
 \end{equation}
 where $H_l(*)$ is the state transition function of the $l^{th}$ layer, and $[*]$ denotes concatenating operation.
-Each dense layer produces $k$ new feature maps, where $k$ is a hyper-parameter and is referred as growth rate. For a dense block containing $L$ layers, it produces $k \times L$ new feature maps.
+Each dense layer produces $k$ new feature maps, where $k$ is a hyper-parameter called growth rate. 
+For a dense block containing $L$ layers, it produces $k \times L$ new feature maps.
+Diagram in the left dashed box of Figure \ref{fig:model} illustrates a simplified mechanism in dense block, where the number of dense layers is 2 and the growth rate $k$ is 4.
+It outputs 12 feature maps, 8 of which are newly produced by its dense layers.
 
-At the end of this model, we use global average pooling strategy proposed in \cite{NinN} to bridge the convolutional structure with fully connected layer for classification.
-As is illustrated in the right dashed box in Figure \ref{fig:model}, the final output feature maps ($T \times H \times W$ tensors) are separately pooled into scalars.
-It is very helpful to prevent model overfitting and can partly improve the generalization ability. 
-Meanwhile, it is more parameter saving compared to , implying a better computational efficiency.
+At the end of this model, we adopt global average pooling strategy proposed in \cite{NinN} to bridge the convolutional networks with fully connected layer for classification.
+As is illustrated in the right dashed box of Figure \ref{fig:model}, the final output feature maps ($T \times H \times W$ tensors) are separately pooled into scalars.
+It is conducive to avoid overfitting and can improve the generalization ability of the model. 
+Meanwhile, it is more parameter saving compared to direct connection, implying a better computational efficiency.
 
-Violent or aggressive behaviors, contain not only simple movement information but also high-order abstract information like acceleration, duration and body interaction. 
-By taking the advantages of feature reusing, the collective knowledge of the model is kept and used by the final classifier to make a judgement or rather fusion based on the composed features, which can achieve more robust and generalized results. 
+Violent or aggressive behaviors contain not only simple movement patterns but also abstract high-order features like acceleration, duration, and body interaction.  
+By feature reusing, the collective knowledge in every stage of the model is preserved and utilized by the final classifier for the final judgment, or rather a fusion based on the diversified and composed features, which can achieve more robust and generalized model. 
 
 %------------------------------------------------------------------------- 
 
@@ -203,13 +209,13 @@ By taking the advantages of feature reusing, the collective knowledge of the mod
 \begin{center}
 \includegraphics[scale=0.30]{fig/fig2.png}
 \end{center}
-\caption{Block diagram of bottleneck and transition layer in our model. The block [$x^3$ Conv, $F$] denotes a convolution layer that have the kernel size of $x \times x \times x$ and produces $F$ feature maps.}
+\caption{Block diagram of bottleneck and transition layer. The block [$x^3$ Conv, $F$] denotes a convolution filter that have the kernel size of $x \times x \times x$ and produces $F$ feature maps.}
 \label{fig:bottleneck}
 \end{figure}
 
-\begin{table}
+\begin{table}[b]
 \begin{center}
-\caption{Network architecture of the proposed method.}
+\caption{Network architecture of the proposed model.}
 \label{table:arch}
 \begin{tabular}{lcr}
 \hline
@@ -224,40 +230,45 @@ DenseBlock 2 & $(1^3, 3^3) \times 12$ & [512,4,14,14] \\
 TransitionLayer 2 & $1^3$ Conv, $3^3$ Avg & [256,2,7,7] \\
 DenseBlock 3 & $(1^3, 3^3) \times 24$ & [1024,2,7,7]\\
 GlobalAvgPooling & $2 \times 7 \times 7$ Avg & [1024,1,1,1]\\
-Classification & FC Layer & [2,-,-,-] \\
+Classification & FC Layer & [2, -, -, -] \\
 \hline
 \end{tabular}
 \end{center}
 \footnotesize
-For $3^3$ convolution and pooling, the default stride is (2,2,2). The $(1^3, 3^3)$ denotes the bottleneck structure in Figure \ref{fig:bottleneck}.
+For $3^3$ convolution and pooling, the default stride is (2,2,2). The $(1^3, 3^3)$ denotes the bottleneck architecture in Figure \ref{fig:bottleneck}.
 \end{table}
 
 %------------------------------------------------------------------------- 
 
-\subsection{Bottleneck and Transition Layer}
+\subsection{Internal Details}
 
-Dense layer should be elaborately selected, since it is the basic component for processing useful feature maps. 
-Here we adopt \emph{Bottleneck} architecture with pre-activation. 
-The left diagram in Figure \ref{fig:bottleneck} represent the bottleneck structure of dense layers whose growth rate is 32 and bottleneck size is 4.
-The kernel size of the first convolution layer is $1 \times 1 \times 1$ and that of the second convolution layer is $3 \times 3 \times 3$.
-Typically, dense layer relatively at back may have more inputs as it receives all the feature maps from its preceding layers. 
-Consequently, using bottleneck convolution helps to reduce the input feature maps, and thus improves computational efficiency.
-Also, the expansion inside bottleneck promotes interaction between different channels, which is favorable for learning complex features.
+Dense layer should be elaborately designed since it is the basic unit for feature learning. 
+Here, \emph{Bottleneck} architecture with pre-activation is adopted in every dense layer. 
+The left diagram in Figure \ref{fig:bottleneck} represent the bottleneck architecture, whose growth rate is 32 and bottleneck size is 4.
+The $1 \times 1 \times 1$ convolution layer produces $32 \times 4$ intermediate feature maps, followed by $3 \times 3 \times 3$ convolution layer that produces 32 (growth rate) output feature maps.
+Typically, dense layer on the later place has more inputs as it receives all the feature maps from its preceding layers. 
+Consequently, using bottleneck helps to compact feature maps, thus improves computational efficiency.
+Meantime, the expansion inside bottleneck promotes infomation interaction between different channels, which is favorable for learning complex features.
 
-Between any two dense blocks, we place a transition layer similar to \cite{densenet} in Figure \ref{fig:bottleneck}.
-The main purpose of using transition layer is to down-sample the input feature maps and match the number of feature maps between adjacent blocks.
-Here we set the number of output feature maps equal to half of the input number, as $F = F_{in}/2$. 
-In addition to reducing the complexity and tuning the nonlinearity of the model, the transition layer can also help to promote interaction between channels, which enhances the feature learning ability and improves robustness of our model.
+Transition layer is placed between any two dense blocks, as is illustrated in the right diagram of Figure \ref{fig:bottleneck}.
+The objective of placing transition layer is to downsample feature maps and match the number of output and input feature maps between adjacent blocks.
+Here we set the number of output feature maps equal to half of the input, as $F = F_{in}/2$.
+In addition to reducing the complexity and tuning the nonlinearity of the model, the transition layer can also help to promote interaction between channels, which enhances the feature learning ability and improves the robustness of our model.
 
-The internal details of the proposed model are listed in Table \ref{table:arch}. 
-In Output Shape column, $[F, T, H, W]$ denotes the shape of output tensors (feature maps) produced by former module.
-Note that dense blocks are slightly different from the simplified illustraion in Figure \ref{fig:model}. 
+Table \ref{table:arch} lists the details of the proposed model.
+In the column of output shape, $[F, T, H, W]$ denotes the shape of tensors (feature maps) produced by the corresponding module.
+Note that dense blocks are slightly different from the simplified illustration in Figure \ref{fig:model} as they use the bottleneck in Figure \ref{fig:bottleneck}. 
+
+%------------------------------------------------------------------------ 
+
+
+
 
 %------------------------------------------------------------------------ 
 
 \begin{table*}
 \begin{center}
-\caption{Comparison of different methods on classification accuracy.}
+\caption{Comparison of classification accuracy on three standard datasets.}
 \label{table:result}
 \begin{tabular}{lccc}
 \hline
@@ -282,10 +293,11 @@ Bi-ConvLSTM \cite{bi_convlstm} & 98.1$\pm$0.58\% & \textbf{100$\pm$0\%} & 93.87$
 
 %------------------------------------------------------------------------ 
 
-\section{Experiments and Analysis}
+\section{Experiments and Analyses}
 \label{sec:4}
 
-Several experiments have been conducted to evaluate the performance of the proposed model in terms of classification accuracy on three standard benchmark datasets. Meanwhile, computational efficiency of deep learning models is also considered and estimated.
+Experiment has been conducted to validate the performance of the proposed model on three standard benchmark datasets.
+Meanwhile, in the supplementary experiment, effectiveness and efficiency are also evaluated.
 
 \subsection{Dataset}
 
@@ -300,7 +312,7 @@ All of these three datasets contain balanced fight and non-fight samples.
 However, as designed for hand-crafted methods, these datasets are relatively small in scale, which may not be capable of training deep neural networks.
 To cope with this problem, the ConvLSTM method \cite{convlstm_sudh} uses AlexNet model pre-trained on ImageNet.
 Similarly, we consult the conclusion in \cite{3dcnn_2} and employ part of the parameters in their model which is pre-trained on Kinetics dataset \cite{kinetics}.
-These parameters are imported to initialize the first convolutional layer in our model.
+These parameters are imported to initialize the first convolution layer in our model.
 
 The three datasets are also mixed up as Mix dataset.
 In Mix dataset, positive and negative samples are randomly drawn from original datasets separately in the same proportion.
@@ -329,7 +341,7 @@ For supplementary experiment on Mix dataset, we split it into training set and v
 The proposed model is still trained by SGD algorithm with momentum, while ConvLSTM \cite{convlstm_sudh} model is optimized using RMSprop algorithm.
 The batch size is set to 32 and learning rate is set to $10^{-3}$.
 
-\subsection{Results and Discussion}
+\subsection{Results and Analyses}
 
 In the experiment, we adopt five-fold cross validation to evaluate the recognition performance of the proposed method to keep consistent with the previous methods.
 Table \ref{table:result} gives the classification accuracy of the state-of-the-art methods on three standard datasets, with deep learning methods listed in the lower half of the table and hand-crafted methods in the upper half.
@@ -349,7 +361,7 @@ Nevertheless, owing to the design of feature reusing and the global field of fin
 
 \begin{table}
 \begin{center}
-\caption{Comparison of deep learning models on Mix dataset.}
+\caption{Experiment results on Mix dataset.}
 \label{table:mix}
 \begin{tabular}{lccc}
 \hline
@@ -404,7 +416,7 @@ ConvLSTM \cite{convlstm_sudh} & 14.40G & 3.7ms & 4.9ms & 6.3ms \\
 The effeciency of models is theoretically studied and practically estimated using torch.autograd.proflier library on single GTX 1080Ti.
 Table \ref{table:efficiency} shows that the proposed model requires lower floating point operations (FLOPS) and is more computationally efficient.
 Meanwhile, it has a faster inference speed and can process about 175 16-channel frames (i.e. 10$\times$16 video clips) per second.
-However, as the architecture of our model require frequent memory I/O, it waste more time on small batch inputs. 
+However, limitations are that as the architecture of our model require frequent memory I/O, it waste more time on small batch inputs. 
 We will try to optimize its implementation and fix this problem in the future.
 
 
