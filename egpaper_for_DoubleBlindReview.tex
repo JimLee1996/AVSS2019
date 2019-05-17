@@ -207,36 +207,11 @@ By feature reusing, the collective knowledge in every stage of the model is pres
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[scale=0.30]{fig/fig2.png}
+\includegraphics[scale=0.32]{fig/fig2.png}
 \end{center}
 \caption{Block diagram of bottleneck and transition layer. The block [$x^3$ Conv, $F$] denotes a convolution filter that have the kernel size of $x \times x \times x$ and produces $F$ feature maps.}
 \label{fig:bottleneck}
 \end{figure}
-
-\begin{table}[b]
-\begin{center}
-\caption{Network architecture of the proposed model.}
-\label{table:arch}
-\begin{tabular}{lcr}
-\hline
-\textbf{Module Name} & \textbf{Architecture} & \textbf{Output Shape} \\
-\hline\hline
-Input Clip & - & [3,16,112,112] \\
-Initial Conv & $7^3$ Conv, (1,2,2) & [64,16,56,56] \\
-Pooling & $3^3$ Max & [64,8,28,28] \\
-DenseBlock 1 & $(1^3, 3^3) \times 6$ & [256,8,28,28] \\
-TransitionLayer 1 & $1^3$ Conv, $3^3$ Avg & [128,4,14,14]\\
-DenseBlock 2 & $(1^3, 3^3) \times 12$ & [512,4,14,14] \\
-TransitionLayer 2 & $1^3$ Conv, $3^3$ Avg & [256,2,7,7] \\
-DenseBlock 3 & $(1^3, 3^3) \times 24$ & [1024,2,7,7]\\
-GlobalAvgPooling & $2 \times 7 \times 7$ Avg & [1024,1,1,1]\\
-Classification & FC Layer & [2, -, -, -] \\
-\hline
-\end{tabular}
-\end{center}
-\footnotesize
-For $3^3$ convolution and pooling, the default stride is (2,2,2). The $(1^3, 3^3)$ denotes the bottleneck architecture in Figure \ref{fig:bottleneck}.
-\end{table}
 
 %------------------------------------------------------------------------- 
 
@@ -261,12 +236,34 @@ Note that dense blocks are slightly different from the simplified illustration i
 
 %------------------------------------------------------------------------ 
 
-
-
+\begin{table}[t]
+\begin{center}
+\caption{Network architecture of the proposed model.}
+\label{table:arch}
+\begin{tabular}{lcr}
+\hline
+\textbf{Module Name} & \textbf{Architecture} & \textbf{Output Shape} \\
+\hline\hline
+Input Clip & - & [3,16,112,112] \\
+Initial Conv & $7^3$ Conv, (1,2,2) & [64,16,56,56] \\
+Pooling & $3^3$ Max & [64,8,28,28] \\
+DenseBlock 1 & $(1^3, 3^3) \times 6$ & [256,8,28,28] \\
+TransitionLayer 1 & $1^3$ Conv, $3^3$ Avg & [128,4,14,14]\\
+DenseBlock 2 & $(1^3, 3^3) \times 12$ & [512,4,14,14] \\
+TransitionLayer 2 & $1^3$ Conv, $3^3$ Avg & [256,2,7,7] \\
+DenseBlock 3 & $(1^3, 3^3) \times 24$ & [1024,2,7,7]\\
+GlobalAvgPooling & $2 \times 7 \times 7$ Avg & [1024,1,1,1]\\
+Classification & FC Layer & [2, -, -, -] \\
+\hline
+\end{tabular}
+\end{center}
+\footnotesize
+For $3^3$ convolution and pooling, the default stride is (2,2,2). The $(1^3, 3^3)$ denotes the bottleneck architecture in Figure \ref{fig:bottleneck}.
+\end{table}
 
 %------------------------------------------------------------------------ 
 
-\begin{table*}
+\begin{table*}[t]
 \begin{center}
 \caption{Comparison of classification accuracy on three standard datasets.}
 \label{table:result}
@@ -303,31 +300,32 @@ Meanwhile, in the supplementary experiment, effectiveness and efficiency are als
 
 In violence detection tasks, there are three public standard benchmark datasets: \\
 \textbf{Hockey Fights Dataset} \cite{hockey} contains 1000 videos collected from hockey games.
-Each video consists of 50 frames with 720$\times$576 pixels. Nearlly all of the videos have the same background and human activities including fights and normal gamings. \\
-\textbf{Movies Dataset} \cite{hockey} has 200 untrimmed video clips obtained from action movies with different resolutions. Different from Hockey, videos in Movies dataset vary in contents.\\
+Each video consists of 50 frames of 720$\times$576. 
+All videos have the same background and similar human activities, including fights and normal gaming. \\
+\textbf{Movies Dataset} \cite{hockey} has 200 video clips fetched from action movies with different resolutions. Slightly different from Hockey, videos in Movies dataset vary in contents.\\
 \textbf{VIolent-Flows Dataset} \cite{vif} consists of 246 videos of crowd behavior with frames resized to 320$\times$240 pixels.
-Different perspectives, noisy background and dense crowd make this dataset relatively challenging for feature learning.
+Multiple perspectives, noisy background, and dense crowd make this dataset challenging compared to the other two.
 
-All of these three datasets contain balanced fight and non-fight samples. 
+All of these three datasets contain balanced fight and non-fight videos. 
 However, as designed for hand-crafted methods, these datasets are relatively small in scale, which may not be capable of training deep neural networks.
-To cope with this problem, the ConvLSTM method \cite{convlstm_sudh} uses AlexNet model pre-trained on ImageNet.
-Similarly, we consult the conclusion in \cite{3dcnn_2} and employ part of the parameters in their model which is pre-trained on Kinetics dataset \cite{kinetics}.
-These parameters are imported to initialize the first convolution layer in our model.
+To cope with this problem, ConvLSTM \cite{convlstm_sudh} adopting AlexNet model pre-trained on ImageNet.
+Similarly, we consult the findings in \cite{3dcnn_2} and utilize partial parameters of their model, which is pre-trained on Kinetics dataset \cite{kinetics}.
+These parameters are imported to initialize the initial convolution layer in our model.
 
-The three datasets are also mixed up as Mix dataset.
+These three datasets are also combined as Mix dataset.
 In Mix dataset, positive and negative samples are randomly drawn from original datasets separately in the same proportion.
-Mix dataset can be used to evaluate overall performance for deep learning models of their modeling capability and generalization ability in violence detection task.
+Mix dataset can be used to evaluate overall performance for deep learning models of their modeling capability and generalization ability in violence detection tasks.
 
 \subsection{Experiment Setup}
 
 The proposed model is implemented using PyTorch \cite{pytorch} platform. 
-When comparing inference speed, other deep models for comparision are also implemented with PyTorch to guarantee comparability and consistency.
+Deep models for comparison on effectiveness and efficiency are also implemented using PyTorch to guarantee comparability and consistency.
 
-The inputs of network are prepared as tensors with shape $N \times C \times T \times H \times W$, where $N$ is the batch size, $C$ is the number of channels (3 for RGB videos), $T$ is the duration of clips and $H \times W$ is the frame resolution. 
-In the experiment, each video is extracted with 16 adjacent frames and then cropped and resized into 112$\times$112 pixels.
+Network inputs are prepared as tensors with shape $N \times C \times T \times H \times W$, in which $N$ is the batch size, $C$ is the number of channels (3 for RGB videos), $T$ is the duration of clips and $H \times W$ denotes the frame resolution. 
+In the experiment, each video is sampled with 16 adjacent frames and then cropped and resized into 112$\times$112 pixels.
 
-In the training phase, data augmentation is employed to enlarge training set and reduce overfitting, including random horizontal flipping, spatially random scale cropping and temporally random slicing. 
-The learning rate and batch size are $10^{-3}$ and $32$ for Hockey and $10^{-4}$ and $16$ for Movie and ViF, considering the scales of dataset.
+In the training phase, data augmentation is employed to enlarge training set and reduce overfitting, including random horizontal flipping, spatially random scale cropping, and temporally random slicing. 
+The learning rate and batch size are $10^{-3}$ and $32$ for Hockey and $10^{-4}$ and $16$ for Movie and ViF, considering the scales of datasets.
 We apply mini-batch stochastic gradient descent (SGD) with momentum 0.5 and weight decay $10^{-3}$ for model optimization.  
 Cross entropy function defined in \ref{eq:crossentropy} is used for loss calculation. 
 \begin{equation}
@@ -335,31 +333,40 @@ Cross entropy function defined in \ref{eq:crossentropy} is used for loss calcula
 \operatorname{loss}(x, \text{label}) = -\log \left(\frac{\exp (x[\text{label}])}{\sum_{j} \exp (x[j])}\right)
 \end{equation}
 
-In the evaluation phase, videos in test set are spatially cropped around center position and temporally sliced to use centre adjacent frames.
+In the evaluation phase, videos in test set are spatially cropped around center pixels and temporally sliced to use center adjacent frames.
+Other boosting strategies like sliding window, resampling, and voting are not adopted, in order to validate the baseline performance of the proposed model.
 
-For supplementary experiment on Mix dataset, we split it into training set and validation set with 9:1, as there are totally 1,446 videos. 
-The proposed model is still trained by SGD algorithm with momentum, while ConvLSTM \cite{convlstm_sudh} model is optimized using RMSprop algorithm.
-The batch size is set to 32 and learning rate is set to $10^{-3}$.
+For the supplementary experiment on Mix dataset, we split 1,446 videos into training and validation set with 9:1. 
+The ConvLSTM \cite{convlstm_sudh} model is optimized using RMSprop algorithm, while other models are still trained by SGD algorithm with momentum.
+The batch size and learning rate are set to 32 and $10^{-3}$.
 
 \subsection{Results and Analyses}
 
-In the experiment, we adopt five-fold cross validation to evaluate the recognition performance of the proposed method to keep consistent with the previous methods.
-Table \ref{table:result} gives the classification accuracy of the state-of-the-art methods on three standard datasets, with deep learning methods listed in the lower half of the table and hand-crafted methods in the upper half.
-From this table, it can be seen that deep learning methods, generally perform better than hand-crafted methods.
-Among them, the proposed method achieves the best performance on all of these three datasets.
+\noindent\textbf{Experiment on Standard Datasets}
+
+In this experiment, we adopt five-fold cross validation to evaluate the recognition performance of the proposed model.
+Table \ref{table:result} gives the classification accuracy of the state-of-the-art methods on three standard datasets.
+The top half of the table lists hand-crafted methods, with deep learning models listed in the bottom half.
+From this table, it can be concluded that, deep learning methods generally perform better than hand-crafted methods.
+Among all of them, the proposed method achieves the best performance on all of these three datasets.
 
 As explained in Section \ref{sec:1}, violence is considered as aggressive behaviors of human. 
-Consequently, it may be obscure to distinguish fights from ohter human body movements like sports and celebrations.
-Taking Hockey Fights dataset for example, normal games can also contain body collision or powerful strokes, which can be confusing and have a real possibility to be mistaken as violence.
-Nevertheless, the proposed model obtains the highest accuracy, implying that it is capable capturing spatiotemporal motion cues and high order localized region information. 
-In the case of Movies dataset, since it has easily identifiable positive and negative samples, every model performs well.
-As for VIolent-Flows dataset, dense crowd and noisy background make it challengeable to capture violent cues. 
-Also, multi-scale and multi-viewpoint may be  another two factors that effect model performance.
-Nevertheless, owing to the design of feature reusing and the global field of final decision, the proposed method forms a multi-attention mechanism for discovering violent position in videos.
+Consequently, it may be obscure to distinguish fights from other human body movements like sports and celebrations.
+For instance, in Hockey Fights dataset, normal matches also involve physical collisions and intense movements, which is confusing and has a real possibility to be mistaken as violence.
+Nevertheless, the proposed model achieves the highest accuracy, indicating that it is capable of capturing effective spatiotemporal features and high order localized region information.
+
+In Movies dataset, there are identifiable differences between positive and negative samples in contents.
+As a result, all models perform well.
+
+However, in VIolent-Flows dataset, dense crowd and noisy background make it challenging for feature learning.
+Multi-scale and multi-viewpoint may also interfere with the effectiveness of models as motion patterns vary from different perspectives.
+In this case, nevertheless, the proposed model achieves the highest accuracy and relatively low variance.
+Owing to the design of feature reusing and channel interaction, the proposed model can form the mechanism of multi-attentions for discovering specific regions and capturing anomaly motion patterns in videos.
+Also, global average pooling before classification provides global fields of features that are more robust for the final decision.
 
 %------------------------------------------------------------------------ 
 
-\begin{table}
+\begin{table}[t]
 \begin{center}
 \caption{Experiment results on Mix dataset.}
 \label{table:mix}
@@ -383,21 +390,38 @@ ConvLSTM \cite{convlstm_sudh} & 96.58\% & 0.1355 & 9.6M \\
 \label{fig:mix}
 \end{figure}
 
-%------------------------------------------------------------------------ 
+%------------------------------------------------------------------------
 
-Supplementary experiment on Mix dataset is carried out to evaluate comprehensive performance of deep learning model.
-Due to the limited conditions, we only evaluate our model with two classic methods, C3D \cite{3dcnn_1} and ConvLSTM \cite{convlstm_sudh}. 
-As is given in Table \ref{table:mix}, the proposed model has better classification with relatively fewer parameters.
-Its cross entropy loss on validation set is an order of magnitude lower than those of two other models.
-Also, Figure \ref{fig:mix} illustrates the details of training and validation epochs. 
-Compared to ConvLSTM, the proposed model is faster in convergence and more capable of modeling abstract features, with relatively lower validation loss.
-This implies that the proposed model achieves better generalization and can effectively learn violence features.
+\noindent\textbf{Experiment on Mix Dataset}
+
+Supplementary experiment on Mix dataset is carried out to evaluate the effectiveness of deep learning models.
+The proposed model is compared with two representative models, C3D and ConvLSTM.
+C3D \cite{3dcnn_1} is a classic video discriptor based on 3D CNNs, and ConvLSTM \cite{convlstm_sudh} is one of the state-of-the-art models in violence detection tasks.
+
+Table \ref{table:mix} compares the effectiveness and parameter numbers of these models.
+Among them, the proposed model has a higher classification accuracy with relatively fewer parameters.
+The cross entropy loss of our model on validation set is 0.0326, an order of magnitude lower than 0.1355 of ConvLSTM.
+Compared to C3D model, the proposed model saves up to 90\% parameters, but can more effectively learn the representations thanks to the narrow bottleneck architectures and global average pooling strategy.
+
+Figure \ref{fig:mix} illustrates the losses in training and validation epochs for the proposed model and ConvLSTM.
+The learning curves of the proposed model are smoother and faster in convergence, and finally, level out at relatively lower losses.
+It implies that our model is more capable of modeling motion patterns and can effectively learn abstract features, which helps to achieve better generalization ability.
+However, the slight rebound in validation curves of both models indicates the minor overfitting, maybe the scale of existing datasets is still insufficient for training deep networks. 
+
+\noindent\textbf{Evaluation on Efficiency}
+
+The efficiency of models is theoretically studied and practically estimated using torch.autograd.profiler library on single GTX 1080Ti.
+Table \ref{table:efficiency} shows that the proposed model requires lower floating point operations (FLOPS), which needs less computing resources and can work more efficiently.
+It has a faster inference speed and can process about 175 16-channel frames per second.
+However, limitations are that our model demands frequent memory read-write operations, due to the implementation of feature reusing, resulting in inferior performance on small batch input.
+It may cost more time on some low-end devices.
+We will try to optimize its implementation and fix this problem.
 
 %------------------------------------------------------------------------ 
 
 \begin{table}
 \begin{center}
-\caption{Comparision of efficiency. The last three columns list the $n$-channel inference time per frame on single GTX 1080Ti.}
+\caption{Comparision of efficiency.}
 \label{table:efficiency}
 \begin{tabular}{lcccc}
 \hline
@@ -409,37 +433,28 @@ ConvLSTM \cite{convlstm_sudh} & 14.40G & 3.7ms & 4.9ms & 6.3ms \\
 \hline
 \end{tabular}
 \end{center}
+\footnotesize
+The last three columns list the $n$-channel (i.e. input with $n$ batches) inference time per frame on single GTX 1080Ti.
 \end{table}
 
 %------------------------------------------------------------------------
-
-The effeciency of models is theoretically studied and practically estimated using torch.autograd.proflier library on single GTX 1080Ti.
-Table \ref{table:efficiency} shows that the proposed model requires lower floating point operations (FLOPS) and is more computationally efficient.
-Meanwhile, it has a faster inference speed and can process about 175 16-channel frames (i.e. 10$\times$16 video clips) per second.
-However, limitations are that as the architecture of our model require frequent memory I/O, it waste more time on small batch inputs. 
-We will try to optimize its implementation and fix this problem in the future.
-
 
 \section{Conclusions}
 \label{sec:5}
 
 In this paper, we propose a deep learning model based on 3D convolutional neural networks with improved internal architecture. 
-The proposed model has relatively fewer parameters and is more capable of learning spatiotemporal features in violent videos. 
-Experiment results on three standard benchmark datasets demonstrate the improvement of our model compared to state-of-the-art methods. 
-Also, the supplementary experiment on Mix dataset proves the effectiveness of our model's feature learning ability. 
-At last, we evaluate the efficiency of several deep learning models from theoretical and practical aspects. 
-Relatively, The proposed model saves more computing resources and is very efficient for real-time processing. 
+The proposed model has relatively fewer parameters and can effectively learn spatiotemporal features of violent behaviors. 
+Experiment results on three standard benchmark datasets demonstrate the improvements of our model over methods. 
+Also, the supplementary experiment on Mix dataset proves the effectiveness of our model on representation learning. 
+At last, we evaluate the efficiency of deep learning models from theoretical and practical aspects.
+The proposed model is computing resource-saving, very efficient, and capable of real-time processing. 
 
-In practical applications, sliding window strategy and voting mechanism can be adopted to achieve better recognition accuracies. 
-By choosing a proper sample rate, it is accessible to make trade-offs between efficiency and accuracy for specific tasks.
+For practical applications, strategies such as sliding window and voting can be adopted to achieve better recognition accuracies. 
+By selecting appropriate sample rates, it is feasible to make trade-offs between efficiency and accuracy for violence detection tasks in various scenarios.
 
 {\small
 \bibliographystyle{ieee}
 \bibliography{egbib}
 }
-
-
-\rule{0pt}{1pt}\newpage
-
 
 \end{document}
