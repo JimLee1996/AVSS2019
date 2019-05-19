@@ -56,7 +56,7 @@ First line of institution2 address\\
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-Automatically analyzing violent content in surveillance videos is of profound significance on many applications, ranging from video content filtration to public security protection. Recognition accuracy and computational efficiency are two key factors to perform this task. In this paper, we propose a deep learning model based on 3D convolutional neural networks with improved internal architecture, which is more capable of capturing spatiotemporal features and requires relatively fewer parameters. The proposed model is validated on three standard datasets in terms of classification accuracy. Meanwhile, supplementary experiment is carried out to evaluate its effectiveness and efficiency. The final results demonstrate the advantages of our model over the state-of-the-art approaches in both recognition accuracy and computational efficiency.
+Automatically analyzing violent content in surveillance videos is of profound significance on many applications, ranging from video content filtration to public security protection. In this paper, we propose a deep learning model based on 3D convolutional neural networks, without using any RNNs or hand-crafted features for encoding temporal information. The improved internal designs adopt compact but effective bottleneck units for learning motion patterns and leverage the DenseNet architecture to encourage feature reusing, which is proved to be more capable of capturing spatiotemporal features and requires relatively fewer parameters. The performance of the proposed model is validated on three standard datasets in terms of recognition accuracy compared to other advanced approaches. Meanwhile, supplementary experiments are carried out to evaluate its effectiveness and efficiency. The final results demonstrate the advantages of the proposed model over the state-of-the-art approaches in both recognition accuracy and computational efficiency.
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
@@ -85,7 +85,7 @@ In view of the circumstances above, we leverage the latest research findings in 
 	\item We experimentally validate our model on three standard benchmark datasets and conduct supplementary experiment to evaluate the effectiveness and efficiency of our model.
 \end{itemize}
 
-The rest of the paper is organized as follows: Section \ref{sec:2} introduces the related works and approaches for violence detection. Section \ref{sec:3} explains the details of the proposed method, followed by experiment and analysis in Section \ref{sec:4}. Finally, Section \ref{sec:5} concludes the work in this paper.
+The rest of the paper is organized as follows: Section \ref{sec:2} introduces the related works and approaches for violence detection. Section \ref{sec:3} explains the details of the proposed model, followed by experiment and analysis in Section \ref{sec:4}. Finally, Section \ref{sec:5} concludes the work in this paper.
 
 %------------------------------------------------------------------------
 
@@ -348,7 +348,7 @@ In this experiment, we adopt five-fold cross validation to evaluate the recognit
 Table \ref{table:result} gives the classification accuracy of the state-of-the-art methods on three standard datasets.
 The top half of the table lists hand-crafted methods, with deep learning models listed in the bottom half.
 From this table, it can be concluded that, deep learning methods generally perform better than hand-crafted methods.
-Among all of them, the proposed method achieves the best performance on all of these three datasets.
+Among all of them, the proposed model achieves the best performance on all of these three datasets.
 
 As explained in Section \ref{sec:1}, violence is considered as aggressive behaviors of human. 
 Consequently, it may be obscure to distinguish fights from other human body movements like sports and celebrations.
@@ -405,7 +405,7 @@ Compared to C3D model, the proposed model saves up to 90\% parameters, but can m
 
 Figure \ref{fig:mix} illustrates the losses in training and validation epochs for the proposed model and ConvLSTM.
 The learning curves of the proposed model are smoother and faster in convergence, and finally, level out at relatively lower losses.
-It implies that our model is more capable of modeling motion patterns and can effectively learn abstract features, which helps to achieve better generalization ability.
+It implies that our model is more capable of learning abstract features and modeling motion patterns, which helps to achieve better generalization ability.
 However, the slight rebound in validation curves of both models indicates the minor overfitting, maybe the scale of existing datasets is still insufficient for training deep networks. 
 
 \noindent\textbf{Evaluation on Efficiency}
@@ -421,7 +421,7 @@ We will try to optimize its implementation and fix this problem.
 
 \begin{table}
 \begin{center}
-\caption{Comparision of efficiency.}
+\caption{Quantized performance of efficiency.}
 \label{table:efficiency}
 \begin{tabular}{lcccc}
 \hline
@@ -434,7 +434,7 @@ ConvLSTM \cite{convlstm_sudh} & 14.40G & 3.7ms & 4.9ms & 6.3ms \\
 \end{tabular}
 \end{center}
 \footnotesize
-The last three columns list the $n$-channel (i.e. input with $n$ batches) inference time per frame on single GTX 1080Ti.
+The last three columns list the $n$-channel (i.e. input with $n$ batches) inference latency per frame on single GTX 1080Ti.
 \end{table}
 
 %------------------------------------------------------------------------
