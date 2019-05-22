@@ -143,7 +143,7 @@ By leveraging the latest research findings, we develop an efficient and effectiv
 \begin{center}
 \includegraphics[scale=0.52]{fig/fig1.png}
 \end{center}
-\caption{Block diagram of the proposed model. This model is composed of an initial convolution layer, three dense blocks, two transition layers, and one fully connected layer. The figure omits Dense Block 2 and Transition Layer 2, due to the limitation of space. Each dense block contains several dense layers. The fully-connected layer is joined with output feature maps using global averaging pooling strategy.}
+\caption{Block diagram of the proposed model. This model is composed of an initial convolution layer, three dense blocks, two transition layers, and one fully connected layer (Dense Block 2 and Transition Layer 2 are ommited in the figure). Each dense block contains several dense layers. The fully-connected layer is joined with output feature maps using global averaging pooling strategy.}
 \label{fig:model}
 \end{figure*}
 	
@@ -455,8 +455,216 @@ For practical applications, strategies such as sliding window and voting can be 
 By selecting appropriate sample rates, it is feasible to make trade-offs between efficiency and accuracy for violence detection tasks in various scenarios.
 
 {\small
-\bibliographystyle{ieee}
-\bibliography{egbib}
+\begin{thebibliography}{10}\itemsep=-1pt
+
+\bibitem{nam1998audio}
+J.~Nam, M.~Alghoniemy, and A.~H. Tewfik.
+\newblock Audio-visual content-based violent scene characterization.
+\newblock In {\em Proceedings 1998 International Conference on Image
+	Processing. ICIP98 (Cat. No. 98CB36269)}, volume~1, pages 353--357. IEEE,
+	1998.
+
+\bibitem{cheng2003semantic}
+W.-H. Cheng, W.-T. Chu, and J.-L. Wu.
+\newblock Semantic context detection based on hierarchical audio models.
+\newblock In {\em Proceedings of the 5th ACM SIGMM international workshop on
+	Multimedia information retrieval}, pages 109--115. ACM, 2003.
+
+\bibitem{zajdel2007cassandra}
+W.~Zajdel, J.~D. Krijnders, T.~Andringa, and D.~M. Gavrila.
+\newblock Cassandra: audio-video sensor fusion for aggression detection.
+\newblock In {\em 2007 IEEE Conference on Advanced Video and Signal Based
+	Surveillance}, pages 200--205. IEEE, 2007.
+
+\bibitem{STIPs}
+I.~Laptev.
+\newblock On space-time interest points.
+\newblock {\em International journal of computer vision}, 64(2-3):107--123,
+	2005.
+
+\bibitem{MoSIFT}
+M.-y. Chen and A.~Hauptmann.
+\newblock Mosift: Recognizing human actions in surveillance videos.
+\newblock 2009.
+
+\bibitem{iDTs}
+H.~Wang, A.~Kl{\"a}ser, C.~Schmid, and C.-L. Liu.
+\newblock Dense trajectories and motion boundary descriptors for action
+	recognition.
+\newblock {\em International journal of computer vision}, 103(1):60--79, 2013.
+
+\bibitem{vio_sift}
+F.~D. De~Souza, G.~C. Chavez, E.~A. do~Valle~Jr, and A.~d.~A. Ara{\'u}jo.
+\newblock Violence detection in video using spatio-temporal features.
+\newblock In {\em 2010 23rd SIBGRAPI Conference on Graphics, Patterns and
+	Images}, pages 224--230. IEEE, 2010.
+
+\bibitem{hockey}
+E.~B. Nievas, O.~D. Suarez, G.~B. Garc{\'\i}a, and R.~Sukthankar.
+\newblock Violence detection in video using computer vision techniques.
+\newblock In {\em International conference on Computer analysis of images and
+	patterns}, pages 332--339. Springer, 2011.
+
+\bibitem{mosift_sc}
+L.~Xu, C.~Gong, J.~Yang, Q.~Wu, and L.~Yao.
+\newblock Violent video detection based on mosift feature and sparse coding.
+\newblock In {\em 2014 IEEE International Conference on Acoustics, Speech and
+	Signal Processing (ICASSP)}, pages 3538--3542. IEEE, 2014.
+
+\bibitem{vif}
+T.~Hassner, Y.~Itcher, and O.~Kliper-Gross.
+\newblock Violent flows: Real-time detection of violent crowd behavior.
+\newblock In {\em 2012 IEEE Computer Society Conference on Computer Vision and
+	Pattern Recognition Workshops}, pages 1--6. IEEE, 2012.
+
+\bibitem{ovif}
+Y.~Gao, H.~Liu, X.~Sun, C.~Wang, and Y.~Liu.
+\newblock Violence detection using oriented violent flows.
+\newblock {\em Image and vision computing}, 48:37--41, 2016.
+
+\bibitem{fast}
+O.~Deniz, I.~Serrano, G.~Bueno, and T.-K. Kim.
+\newblock Fast violence detection in video.
+\newblock In {\em 2014 International Conference on Computer Vision Theory and
+	Applications (VISAPP)}, volume~2, pages 478--485. IEEE, 2014.
+
+\bibitem{bilinski2016human}
+P.~Bilinski and F.~Bremond.
+\newblock Human violence recognition and detection in surveillance videos.
+\newblock In {\em 2016 13th IEEE International Conference on Advanced Video and
+	Signal Based Surveillance (AVSS)}, pages 30--36. IEEE, 2016.
+
+\bibitem{MoIWLD}
+T.~Zhang, W.~Jia, X.~He, and J.~Yang.
+\newblock Discriminative dictionary learning with motion weber local descriptor
+	for violence detection.
+\newblock {\em IEEE Transactions on Circuits and Systems for Video Technology},
+	27(3):696--709, 2017.
+
+\bibitem{vlad}
+T.~Deb, A.~Arman, and A.~Firoze.
+\newblock Machine cognition of violence in videos using novel outlier-resistant
+	vlad.
+\newblock In {\em 2018 17th IEEE International Conference on Machine Learning
+	and Applications (ICMLA)}, pages 989--994. IEEE, 2018.
+
+\bibitem{two-stream}
+K.~Simonyan and A.~Zisserman.
+\newblock Two-stream convolutional networks for action recognition in videos.
+\newblock In {\em Advances in neural information processing systems}, pages
+	568--576, 2014.
+
+\bibitem{dong2016multi}
+Z.~Dong, J.~Qin, and Y.~Wang.
+\newblock Multi-stream deep networks for person to person violence detection in
+	videos.
+\newblock In {\em Chinese Conference on Pattern Recognition}, pages 517--531.
+	Springer, 2016.
+
+\bibitem{lstm}
+J.~Donahue, L.~Anne~Hendricks, S.~Guadarrama, M.~Rohrbach, S.~Venugopalan,
+	K.~Saenko, and T.~Darrell.
+\newblock Long-term recurrent convolutional networks for visual recognition and
+	description.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+	pattern recognition}, pages 2625--2634, 2015.
+
+\bibitem{zhou2017violent}
+P.~Zhou, Q.~Ding, H.~Luo, and X.~Hou.
+\newblock Violent interaction detection in video based on deep learning.
+\newblock In {\em Journal of Physics: Conference Series}, volume 844, page
+	012044. IOP Publishing, 2017.
+
+\bibitem{tsn}
+L.~Wang, Y.~Xiong, Z.~Wang, Y.~Qiao, D.~Lin, X.~Tang, and L.~Van~Gool.
+\newblock Temporal segment networks: Towards good practices for deep action
+	recognition.
+\newblock In {\em European conference on computer vision}, pages 20--36.
+	Springer, 2016.
+
+\bibitem{serrano2018fight}
+I.~Serrano, O.~Deniz, J.~L. Espinosa-Aranda, and G.~Bueno.
+\newblock Fight recognition in video using hough forests and 2d convolutional
+	neural network.
+\newblock {\em IEEE Transactions on Image Processing}, 27(10):4787--4797, 2018.
+
+\bibitem{3dcnn_ding}
+C.~Ding, S.~Fan, M.~Zhu, W.~Feng, and B.~Jia.
+\newblock Violence detection in video by using 3d convolutional neural
+	networks.
+\newblock In {\em International Symposium on Visual Computing}, pages 551--558.
+	Springer, 2014.
+
+\bibitem{convlstm_sudh}
+S.~Sudhakaran and O.~Lanz.
+\newblock Learning to detect violent videos using convolutional long short-term
+	memory.
+\newblock In {\em 2017 14th IEEE International Conference on Advanced Video and
+	Signal Based Surveillance (AVSS)}, pages 1--6. IEEE, 2017.
+
+\bibitem{convlstm}
+S.~Xingjian, Z.~Chen, H.~Wang, D.-Y. Yeung, W.-K. Wong, and W.-c. Woo.
+\newblock Convolutional lstm network: A machine learning approach for
+	precipitation nowcasting.
+\newblock In {\em Advances in neural information processing systems}, pages
+	802--810, 2015.
+
+\bibitem{bi_convlstm}
+A.~Hanson, K.~PNVR, S.~Krishnagopal, and L.~Davis.
+\newblock Bidirectional convolutional lstm for the detection of violence in
+	videos.
+\newblock In {\em Proceedings of the European Conference on Computer Vision
+	(ECCV)}, pages 0--0, 2018.
+
+\bibitem{3dcnn_1}
+D.~Tran, L.~Bourdev, R.~Fergus, L.~Torresani, and M.~Paluri.
+\newblock Learning spatiotemporal features with 3d convolutional networks.
+\newblock In {\em Proceedings of the IEEE international conference on computer
+	vision}, pages 4489--4497, 2015.
+
+\bibitem{kinetics}
+J.~Carreira and A.~Zisserman.
+\newblock Quo vadis, action recognition? a new model and the kinetics dataset.
+\newblock In {\em proceedings of the IEEE Conference on Computer Vision and
+	Pattern Recognition}, pages 6299--6308, 2017.
+
+\bibitem{imagenet}
+J.~Deng, W.~Dong, R.~Socher, L.-J. Li, K.~Li, and L.~Fei-Fei.
+\newblock Imagenet: A large-scale hierarchical image database.
+\newblock In {\em 2009 IEEE conference on computer vision and pattern
+	recognition}, pages 248--255. Ieee, 2009.
+
+\bibitem{3dcnn_2}
+K.~Hara, H.~Kataoka, and Y.~Satoh.
+\newblock Can spatiotemporal 3d cnns retrace the history of 2d cnns and
+	imagenet?
+\newblock In {\em Proceedings of the IEEE conference on Computer Vision and
+	Pattern Recognition}, pages 6546--6555, 2018.
+
+\bibitem{r2+1d}
+D.~Tran, H.~Wang, L.~Torresani, J.~Ray, Y.~LeCun, and M.~Paluri.
+\newblock A closer look at spatiotemporal convolutions for action recognition.
+\newblock In {\em Proceedings of the IEEE conference on Computer Vision and
+	Pattern Recognition}, pages 6450--6459, 2018.
+
+\bibitem{densenet}
+G.~Huang, Z.~Liu, L.~Van Der~Maaten, and K.~Q. Weinberger.
+\newblock Densely connected convolutional networks.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+	pattern recognition}, pages 4700--4708, 2017.
+
+\bibitem{NinN}
+M.~Lin, Q.~Chen, and S.~Yan.
+\newblock Network in network.
+\newblock {\em arXiv preprint arXiv:1312.4400}, 2013.
+
+\bibitem{pytorch}
+A.~Paszke, S.~Gross, S.~Chintala, G.~Chanan, E.~Yang, Z.~DeVito, Z.~Lin,
+	A.~Desmaison, L.~Antiga, and A.~Lerer.
+\newblock Automatic differentiation in pytorch.
+\newblock In {\em NIPS-W}, 2017.
+
+\end{thebibliography}
 }
 
 \end{document}
