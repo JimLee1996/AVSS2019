@@ -104,33 +104,33 @@ Video-based approaches typically can be divided into two categories according to
 Hand-crafted approaches usually extract frame-level features designed by the human, then aggregate them using encoding strategies, and finally, apply machine learning classifiers for the final decision.
 Among these approaches, STIP \cite{STIPs}, MoSIFT \cite{MoSIFT} and iDT \cite{iDTs} are widely used features for violence detection such as \cite{vio_sift, hockey, mosift_sc}.
 There are also several descriptors designed explicitly for representing violence information.
-Hassner et al. \cite{vif} introduced VIolent Flows (ViF) feature by estimating the magnitude of optical flow over time.
-Later, Gao et al. \cite{ovif} improved this work and proposed Oriented VIolent Flows (OViF) feature by additionally calculating statistical motion orientations.
-Deniz et al. \cite{fast} applied Radon Transform on the power spectrum of consecutive frames to estimate extreme acceleration patterns in fights.
-Bilinski et al. \cite{bilinski2016human} developed an extension of Improved Fisher Vectors for videos to represent local features and their spatiotemporal positions.
-Zhang et al. \cite{MoIWLD} proposed a modified motion Weber local descriptor (MoIWLD) as the new feature descriptor.
-Deb et al. \cite{vlad} introduced Outlier-Resistant VLAD (OR-VLAD) to improve the performance for feature encoding.
+Hassner \etal \cite{vif} introduced VIolent Flows (ViF) feature by estimating the magnitude of optical flow over time.
+Later, Gao \etal \cite{ovif} improved this work and proposed Oriented VIolent Flows (OViF) feature by additionally calculating statistical motion orientations.
+Deniz \etal \cite{fast} applied Radon Transform on the power spectrum of consecutive frames to estimate extreme acceleration patterns in fights.
+Bilinski \etal \cite{bilinski2016human} developed an extension of Improved Fisher Vectors for videos to represent local features and their spatiotemporal positions.
+Zhang \etal \cite{MoIWLD} proposed a modified motion Weber local descriptor (MoIWLD) as the new feature descriptor.
+Deb \etal \cite{vlad} introduced Outlier-Resistant VLAD (OR-VLAD) to improve the performance for feature encoding.
 
 Deep learning approaches, differently from traditional methods, use trainable deep neural networks as feature extractor, and usually build an end-to-end model including feature extraction, encoding, and classification. 
-Simonyan et al. \cite{two-stream} firstly proposed two-stream networks for human action recognition by adding a temporal network to capture motion information in optical flows.
-Dong et al. \cite{dong2016multi} extended this model to multi-stream, adding another acceleration stream for capturing violent motions. Also, they employed the LSTM \cite{lstm} network to model long-term information.  
-Zhou et al. \cite{zhou2017violent} applied temporal segment networks (TSN) \cite{tsn} and proposed FightNet model. This model takes raw frames, optical flow, and acceleration field as network inputs and uses SoftMax for final fusion.
-Serrano et al. \cite{serrano2018fight} employed Hough Forests to build representative images for video sequences, followed by a 2D ConvNets for the final decision.
+Simonyan \etal \cite{two-stream} firstly proposed two-stream networks for human action recognition by adding a temporal network to capture motion information in optical flows.
+Dong \etal \cite{dong2016multi} extended this model to multi-stream, adding another acceleration stream for capturing violent motions. Also, they employed the LSTM \cite{lstm} network to model long-term information.  
+Zhou \etal \cite{zhou2017violent} applied temporal segment networks (TSN) \cite{tsn} and proposed FightNet model. This model takes raw frames, optical flow, and acceleration field as network inputs and uses SoftMax for final fusion.
+Serrano \etal \cite{serrano2018fight} employed Hough Forests to build representative images for video sequences, followed by a 2D ConvNets for the final decision.
 
 These approaches take full advantages of hand-crafted features by combining them with deep learning technologies.
 However, drawbacks are that they are not end-to-end trainable and are more dependent on the effectiveness of hand-crafted features.
 Besides, it may be inefficient to add additional computation steps. 
 
 Several end-to-end trainable models have been proposed to solve these problems.
-Ding et al. \cite{3dcnn_ding} proposed a 3D ConvNets for violence detection without using any hand-crafted feature or prior knowledge. 
-Sudhakaran et al. \cite{convlstm_sudh} applied 2D ConvNets to extract spatial feature maps, then followed by ConvLSTM \cite{convlstm} to encode spatiotemporal information.
-This work was subsequently improved by Hanson et al. \cite{bi_convlstm} by building Bidirectional ConvLSTM (Bi-ConvLSTM) architecture as the spatiotemporal encoder.
+Ding \etal \cite{3dcnn_ding} proposed a 3D ConvNets for violence detection without using any hand-crafted feature or prior knowledge. 
+Sudhakaran \etal \cite{convlstm_sudh} applied 2D ConvNets to extract spatial feature maps, then followed by ConvLSTM \cite{convlstm} to encode spatiotemporal information.
+This work was subsequently improved by Hanson \etal \cite{bi_convlstm} by building Bidirectional ConvLSTM (Bi-ConvLSTM) architecture as the spatiotemporal encoder.
 
 Recently, approaches based on 3D CNNs have achieved tremendous success in action recognition, owing to the availability of large scale datasets and the improvements of deep learning technologies. 
-Tran et al. \cite{3dcnn_1} proposed C3D discriptor and raised four properties for effective video descriptors: generic, compact, efficient and simple. 
-Carreira et al. \cite{kinetics} built a large scale dataset called Kinetics for human action recognition, which plays a significant role similar to that ImageNet \cite{imagenet} plays in image recognition. 
-Soon after, Hara et al. \cite{3dcnn_2} conducted a series of experiments and demonstrated that 3D CNNs pre-trained on Kinetics dataset could retrace the triumph of 2D CNNs and ImageNet.
-Tran et al. \cite{r2+1d} explored several varieties of 3D CNN architectures and designed a new spatiotemporal convolutional block called R(2+1)D for action recognition.
+Tran \etal \cite{3dcnn_1} proposed C3D discriptor and raised four properties for effective video descriptors: generic, compact, efficient and simple. 
+Carreira \etal \cite{kinetics} built a large scale dataset called Kinetics for human action recognition, which plays a significant role similar to that ImageNet \cite{imagenet} plays in image recognition. 
+Soon after, Hara \etal \cite{3dcnn_2} conducted a series of experiments and demonstrated that 3D CNNs pre-trained on Kinetics dataset could retrace the triumph of 2D CNNs and ImageNet.
+Tran \etal \cite{r2+1d} explored several varieties of 3D CNN architectures and designed a new spatiotemporal convolutional block called R(2+1)D for action recognition.
 Also, they comprehensively studied several good practices for applying 3D CNNs to specific tasks.
 
 By leveraging the latest research findings, we develop an efficient and effective 3D CNN model with specifically designed architecture for violence detection tasks.
@@ -436,7 +436,7 @@ ConvLSTM \cite{convlstm_sudh} & 14.40G & 3.7ms & 4.9ms & 6.3ms \\
 \end{tabular}
 \end{center}
 \footnotesize
-The last three columns list the $n$-channel (i.e., input with $n$ batches) inference latency per frame on single GTX 1080Ti.
+The last three columns list the $n$-channel (\ie input with $n$ batches) inference latency per frame on single GTX 1080Ti.
 \end{table}
 
 %------------------------------------------------------------------------
