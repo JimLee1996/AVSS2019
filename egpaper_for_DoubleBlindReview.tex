@@ -7,23 +7,15 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 
-
-\usepackage[colorlinks,
-linkcolor=red,
-anchorcolor=blue,
-citecolor=green
-]{hyperref}
-
-
 % Include other packages here, before hyperref.
 
 % If you comment hyperref and then uncomment it, you should delete 
 % egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
 % run, let it finish, and you should be clear).
-%\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
 
 
-%\avssfinalcopy % *** Uncomment this line for the final submission
+\avssfinalcopy % *** Uncomment this line for the final submission
 
 \def\avssPaperID{21} % *** Enter the AVSS Paper ID here
 \def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
@@ -35,20 +27,20 @@ citecolor=green
 %%%%%%%%% TITLE
 \title{Efficient Violence Detection Using 3D Convolutional Neural Networks}
 
-\author{First Author\\
-Institution1\\
-Institution1 address\\
-{\tt\small firstauthor@i1.org}
+\author{Ji Li \quad  Xinghao Jiang \quad  Tanfeng Sun \quad  Ke Xu\\
+School of Cyber Science and Engineering, Shanghai Jiao Tong University\\
+800 Dongchuan RD. Minhang District, Shanghai, China\\
+{\tt\small \{jimlee1996, xhjiang, tfsun, l13025816\}@sjtu.edu.cn}
 % For a paper whose authors are all at the same institution, 
 % omit the following lines up until the closing ``}''.
 % Additional authors and addresses can be added with ``\and'', 
 % just like the second author.
 % To save space, use either the email address or home page, not both
-\and
-Second Author\\
-Institution2\\
-First line of institution2 address\\
-{\tt\small secondauthor@i1.org}
+% \and
+% Second Author\\
+% Institution2\\
+% First line of institution2 address\\
+% {\tt\small secondauthor@i1.org}
 }
 
 \maketitle
@@ -453,6 +445,18 @@ The proposed model is computing resource-saving, very efficient, and capable of 
 
 For practical applications, strategies such as sliding window and voting can be adopted to achieve better recognition accuracies. 
 By selecting appropriate sample rates, it is feasible to make trade-offs between efficiency and accuracy for violence detection tasks in various scenarios.
+
+%------------------------------------------------------------------------
+
+\section{Acknowledgment}
+\label{sec:6}
+
+This work is funded by National Natural Science Foundation of China (Grant No. 61572321 \& 61572320).
+It is also supported by National Key Research and Development Projects of China (2018YFC0830703, 2018YFC0831405).
+
+It is also supported by the Foundation of Shanghai Fusion and Innovative Research Laboratory for Procuratorial Big Data.
+
+%------------------------------------------------------------------------
 
 {\small
 \begin{thebibliography}{10}\itemsep=-1pt
