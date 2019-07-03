@@ -26,8 +26,8 @@
 %%%%%%%%% TITLE
 \title{Efficient Violence Detection Using 3D Convolutional Neural Networks}
 
-\author{Ji Li \quad  Xinghao Jiang \quad  Tanfeng Sun \quad  Ke Xu\\
-School of Cyber Science and Engineering, Shanghai Jiao Tong University\\
+\author{Ji Li \quad Xinghao Jiang \quad Tanfeng Sun \quad Ke Xu\\
+School of Electronic Information and Electrical Engineering, Shanghai Jiao Tong University\\
 800 Dongchuan RD. Minhang District, Shanghai, China\\
 {\tt\small \{jimlee1996, xhjiang, tfsun, l13025816\}@sjtu.edu.cn}
 % For a paper whose authors are all at the same institution, 
@@ -367,7 +367,7 @@ Also, global average pooling before classification provides global fields of fea
 \hline
 \textbf{Model} & \textbf{Accuracy} & \textbf{CE Loss} & \textbf{\# Params} \\
 \hline\hline
-C3D~\cite{3dcnn_1} & 92.47\% & 0.4019 & 78.0M \\
+C3D~\cite{3dcnn_1} & 92.47\% & 0.2505 & 78.0M \\
 ConvLSTM~\cite{convlstm_sudh} & 96.58\% & 0.1355 & 9.6M \\
 \textbf{Proposed} & \textbf{99.32\%} & \textbf{0.0326} & \textbf{7.4M} \\
 \hline
@@ -379,7 +379,7 @@ ConvLSTM~\cite{convlstm_sudh} & 96.58\% & 0.1355 & 9.6M \\
 \begin{center}
 \includegraphics[scale=0.46]{fig/fig3.png}
 \end{center}
-\caption{Training and validation losses of the proposed model and ConvLSTM~\cite{convlstm_sudh} on Mix dataset.}
+\caption{Training and validation losses of the proposed model, ConvLSTM~\cite{convlstm_sudh}, and C3D~\cite{3dcnn_1} on Mix dataset.}
 ~\label{fig:mix}
 \end{figure}
 
@@ -390,16 +390,19 @@ ConvLSTM~\cite{convlstm_sudh} & 96.58\% & 0.1355 & 9.6M \\
 Supplementary experiment on Mix dataset is carried out to evaluate the effectiveness of deep learning models.
 The proposed model is compared with two representative models, C3D and ConvLSTM.
 C3D~\cite{3dcnn_1} is a classic video discriptor based on 3D CNNs, and ConvLSTM~\cite{convlstm_sudh} is one of the state-of-the-art models in violence detection tasks.
+ 
+Note that the parameters of C3D model in its initial convolution layer are initialized samely with our model, and ConvLSTM model takes pre-trained AlexNet for feature extraction as the same in~\cite{convlstm_sudh}.
+The reason why we need pre-trained models and apply transfer learning is that the scale of Mix Dataset is still small to be capable of training deep networks, in which case fine-tuning on well-initialized parameters will inspire all their potentials compared to random initialization.
 
 Table~\ref{table:mix} compares the effectiveness and parameter numbers of these models.
 Among them, the proposed model has a higher classification accuracy with relatively fewer parameters.
 The cross entropy loss of our model on validation set is 0.0326, an order of magnitude lower than 0.1355 of ConvLSTM.
 Compared to C3D model, the proposed model saves up to 90\% parameters, but can more effectively learn the representations thanks to the narrow bottleneck architectures and global average pooling strategy.
 
-Figure~\ref{fig:mix} illustrates the losses in training and validation epochs for the proposed model and ConvLSTM.
+Figure~\ref{fig:mix} illustrates the losses in training and validation epochs for the proposed model, ConvLSTM~\cite{convlstm_sudh}, and C3D~\cite{3dcnn_1} model.
 The learning curves of the proposed model are smoother and faster in convergence, and finally, level out at relatively lower losses.
 It implies that our model is more capable of learning abstract features and modeling motion patterns, which helps to achieve better generalization ability.
-However, the slight rebound in validation curves of both models indicates the minor overfitting, maybe the scale of existing datasets is still insufficient for training deep networks. 
+However, the slight rebound in validation curves of these models indicates the minor overfitting, maybe the scale of existing datasets is still insufficient for training deep networks. 
 
 \subsubsection{Evaluation on Efficiency}
 
@@ -451,9 +454,10 @@ By selecting appropriate sample rates, it is feasible to make trade-offs between
 ~\label{sec:6}
 
 This work is funded by National Natural Science Foundation of China (Grant No. 61572321 \& 61572320).
-It is also supported by National Key Research and Development Projects of China (2018YFC0830703, 2018YFC0831405).
+It is supported by National Key Research and Development Projects of China (2018YFC0830703, 2018YFC0831405).
 
 It is also supported by the Foundation of Shanghai Fusion and Innovative Research Laboratory for Procuratorial Big Data.
+Xinghao Jiang is the corresponding author.
 
 %------------------------------------------------------------------------
 
