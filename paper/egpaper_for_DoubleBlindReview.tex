@@ -7,6 +7,11 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 
+% IEEE COPYRIGHT
+\usepackage{fancyhdr}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
 % Include other packages here, before hyperref.
 
 % If you comment hyperref and then uncomment it, you should delete 
@@ -43,7 +48,13 @@ School of Electronic Information and Electrical Engineering, Shanghai Jiao Tong 
 }
 
 \maketitle
-\thispagestyle{empty}
+% IEEE COPYRIGHT
+\thispagestyle{fancy}
+\fancyhead{}
+\lhead{}
+\lfoot{978-1-5386-9294-3/18/\$31.00~\copyright2019 IEEE}
+\cfoot{}
+\rfoot{}
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
