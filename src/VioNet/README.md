@@ -42,6 +42,8 @@ Efficient Violence Detection Using 3D Convolutional Neural Networks.
 
 ### How to run
 
-Just run `main.py`.
+- Download pretrained weights on Kinetices and put them into dir `weights`. [[Weights](https://drive.google.com/file/d/1pNrAzWHQJLzOEH_-407rel3VV45YuJ6f/view?usp=sharing)]
 
-Note that you might modify the parameters at the end of the code.
+- Download dataset and put them into dir `../VioDB`. [[Dataset](https://drive.google.com/file/d/1zxttpCDegQUmPHE8WwD8EMPpCngRRVkm/view?usp=sharing)]
+
+- Before runing `main.py`, you might need to modify the parameters at the end of the code.
