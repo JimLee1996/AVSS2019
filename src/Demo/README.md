@@ -2,7 +2,7 @@
 
 ### [model.py](model.py)
 
-VioNet model
+VioNet model
 
 ### [backend.py](backend.py)
 
